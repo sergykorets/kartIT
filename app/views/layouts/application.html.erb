@@ -1,71 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <%= display_meta_tags %>
     <%= favicon_link_tag '/images/favicon.png' %>
-    <meta name="google-site-verification" content="f7UF8iqVkBaU2n1DglcGJhPBB1qpE0WblQnKI1FjlqI" />
-    <meta name="description" content="Оренда авто"/>
-    <meta name="keywords" content="Оренда авто"/>
     <%= csrf_meta_tags %>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application' %>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
-          integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
-          crossorigin=""/>
-    <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"
-            integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
-            crossorigin=""></script>
+
   </head>
   <body>
     <%= render 'layouts/nav'%>
     <%= yield %>
-
-    <section id="footer-area">
-      <div class="footer-widget-area">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="single-footer-widget">
-                <h2>Про нас</h2>
-                <div class="widget-body">
-                  <img src="/images/logo.png" alt="JSOFT"/>
-                  <p>Lorem ipsum dolored is a sit ameted consectetur adipisicing elit. Nobis magni assumenda distinctio debitis, eum fuga fugiat error reiciendis.
-                  Lorem ipsum dolored is a sit ameted consectetur adipisicing elit. Nobis magni assumenda distinctio debitis, eum fuga fugiat error reiciendis.</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="single-footer-widget">
-                <h2>Наші контакти</h2>
-                <div class="widget-body">
-                  <p>Lorem ipsum doloer sited amet, consectetur adipisicing elit. nibh auguea, scelerisque sed</p>
-
-                  <ul class="get-touch">
-                    <li><i class="fa fa-map-marker"></i> 800/8, Kazipara, Dhaka</li>
-                    <li><i class="fa fa-mobile"></i> +880 01 86 25 72 43</li>
-                    <li><i class="fa fa-envelope"></i> kazukamdu83@gmail.com</li>
-                  </ul>
-                  <a href="https://goo.gl/maps/b5mt45MCaPB2" class="map-show" target="_blank">Show Location</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="footer-bottom-area">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-12 text-center">
-              <p>
-                Copyright &copy; 2019 All rights reserved
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
   </body>
 </html>

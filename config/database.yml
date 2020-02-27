@@ -6,4 +6,4 @@ default: &default
 
 development:
   <<: *default
-  database: rentcar_development
+  database: currency_development

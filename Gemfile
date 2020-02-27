@@ -45,15 +45,8 @@ gem 'omniauth-facebook'
 gem 'rails_admin', '~> 1.3'
 gem "font-awesome-rails"
 gem "paperclip", "~> 5.2.0"
-gem 'rails_admin_rollincode', '~> 1.0'
-gem 'httparty'
-gem 'whenever', require: false
-gem 'aws-sdk', '~> 2.3'
-gem 'friendly_id', '~> 5.2.0'
-gem 'sitemap_generator'
-gem 'fog-aws'
-gem 'meta-tags'
-gem 'kaminari'
+gem 'paper_trail'
+gem 'paper_trail-association_tracking'
 
 group :development, :test do
   gem 'pry-rails'

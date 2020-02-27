@@ -10,71 +10,46 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191226174928) do
+ActiveRecord::Schema.define(version: 20200226224931) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "cars", force: :cascade do |t|
-    t.string "name"
-    t.text "description"
-    t.string "color"
-    t.integer "places"
-    t.integer "gearbox"
-    t.integer "body_type"
-    t.integer "year"
-    t.integer "fuel"
-    t.float "engine"
-    t.string "slug"
-    t.boolean "active", default: false
-    t.integer "category_id"
-    t.boolean "gps", default: false
-    t.boolean "wifi", default: false
-    t.boolean "conditioner", default: false
-    t.boolean "bluetooth", default: false
-    t.boolean "abs", default: false
-    t.boolean "parktronic", default: false
+  create_table "actions", force: :cascade do |t|
+    t.integer "action_type"
+    t.integer "currency_id_buy"
+    t.integer "currency_id_sell"
+    t.integer "currency_id"
+    t.decimal "amount"
+    t.decimal "buy_amount"
+    t.decimal "sell_amount"
+    t.decimal "rate"
+    t.text "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  create_table "categories", force: :cascade do |t|
-    t.string "name"
-    t.text "description"
-    t.string "slug"
-    t.boolean "active", default: false
-    t.string "photo_file_name"
-    t.string "photo_content_type"
-    t.integer "photo_file_size"
-    t.datetime "photo_updated_at"
+  create_table "balances", force: :cascade do |t|
+    t.integer "currency_id"
+    t.decimal "interim_balance"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  create_table "photos", force: :cascade do |t|
-    t.integer "car_id"
+  create_table "currencies", force: :cascade do |t|
     t.string "name"
-    t.string "picture_file_name"
-    t.string "picture_content_type"
-    t.integer "picture_file_size"
-    t.datetime "picture_updated_at"
-  end
-
-  create_table "reservations", force: :cascade do |t|
-    t.integer "car_id"
-    t.string "name"
-    t.string "phone"
-    t.string "email"
-    t.text "description"
-    t.datetime "start_date"
-    t.datetime "end_date"
-  end
-
-  create_table "reviews", force: :cascade do |t|
-    t.integer "rating"
-    t.integer "user_id"
-    t.integer "car_id"
+    t.decimal "buy_price"
+    t.decimal "sell_price"
+    t.decimal "current_amount"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
+    t.string "name", null: false
+    t.integer "role", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -83,10 +58,8 @@ ActiveRecord::Schema.define(version: 20191226174928) do
     t.datetime "last_sign_in_at"
     t.inet "current_sign_in_ip"
     t.inet "last_sign_in_ip"
-    t.string "role"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "name"
     t.string "avatar_file_name"
     t.string "avatar_content_type"
     t.integer "avatar_file_size"
@@ -94,9 +67,18 @@ ActiveRecord::Schema.define(version: 20191226174928) do
     t.string "provider"
     t.string "uid"
     t.string "remote_avatar_url"
-    t.boolean "admin", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "versions", force: :cascade do |t|
+    t.string "item_type", null: false
+    t.bigint "item_id", null: false
+    t.string "event", null: false
+    t.string "whodunnit"
+    t.text "object"
+    t.datetime "created_at"
+    t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
 end
