@@ -4,7 +4,9 @@ class Currency < ApplicationRecord
   has_many :cashdesk_actions, class_name: 'Action', foreign_key: :currency_id
   has_many :balances
 
-  has_paper_trail only: [:buy_price, :sell_price], on: :update
+  has_paper_trail only: [:buy_price, :sell_price], on: :update, versions: {
+      class_name: 'Version'
+  }
 
   def get_current_amount
     if yesterday_balance = balances.where('balances.created_at >= ?', 1.day.ago).last

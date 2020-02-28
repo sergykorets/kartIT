@@ -11,5 +11,27 @@
   <body>
     <%= render 'layouts/nav'%>
     <%= yield %>
+    <% if current_user&.cashier? %>
+      <%#= binding.pry %>
+      <% unless current_user&.new_rates_acknowleged %>
+        <div id="new_rates_acknowledgment" class="modal show fade in" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Увага! Курс валют було змінено!</h5>
+              </div>
+              <div class="modal-body">
+                <p>Натисніть на кнопку "Зрозуміло" та подивіться на змінені курси валют</p>
+              </div>
+              <div class="modal-footer">
+                <%= form_for current_user, :url => {:controller => "users", :action => "submit_new_rates_acknowledgment"} do |f| %>
+                  <%= f.submit 'Зрозуміло', class: "btn btn-primary"  %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
   </body>
 </html>

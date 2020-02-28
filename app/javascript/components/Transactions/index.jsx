@@ -24,7 +24,6 @@ export default class Actions extends React.Component {
   };
 
   render() {
-    console.log(this.state);
     return (
       <Fragment>
         <div className="container inside">

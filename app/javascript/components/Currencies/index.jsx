@@ -88,7 +88,7 @@ export default class Currencies extends React.Component {
         ...this.state.exchange,
         action_type: type,
         rate: rate,
-        sell_amount: this.state.exchange.amount * rate
+        sell_amount: this.cutFloat(this.state.exchange.amount * rate)
       }
     });
   };
@@ -241,11 +241,6 @@ export default class Currencies extends React.Component {
   }
 
   render() {
-    console.log(this.state);
-    const state = this.state;
-    const myArray = Object.values(this.state.currencies).filter(function( obj ) {
-      return obj.name == 'UAH';
-    });
     return (
       <Fragment>
         { this.state.loaded &&
@@ -255,7 +250,7 @@ export default class Currencies extends React.Component {
               <div className="input-submit">
                 { this.props.admin &&
                   <Fragment>
-                    <button onClick={() => this.setState({cashDeskModal: true})}>Дії з касою</button>
+                    <button className='btn-success' onClick={() => this.setState({cashDeskModal: true})}>Дії з касою</button>
                     <button className='btn-primary' onClick={() => this.setState({ratesModal: true})}>Зміна курсу валют</button>
                   </Fragment>}
                 <button className='btn-danger' onClick={() => this.setState({exchangeModal: true})}>Обмін валюти</button>

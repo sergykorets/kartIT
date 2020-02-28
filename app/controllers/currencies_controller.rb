@@ -34,6 +34,10 @@ class CurrenciesController < ApplicationController
   end
 
   def exchange
+    if current_user&.cashier?
+      redirect_to root_path unless current_user.new_rates_acknowleged
+      return
+    end
     action = Action.new(exchange_params)
     sell_currency = Currency.find(action.currency_id_sell)
     buy_currency = Currency.find(action.currency_id_buy)
