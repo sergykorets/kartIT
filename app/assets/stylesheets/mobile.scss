@@ -1,10 +1,7 @@
-@media (min-width: 576px) {
+@media (max-width: 991px) {
   .modal-dialog {
     max-width: none;
   }
-}
-
-@media (max-width: 991px) {
   .container {
     max-width: 100%;
   }
