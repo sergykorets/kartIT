@@ -19,12 +19,13 @@ export default class Currencies extends React.Component {
         comment: ''
       },
       exchange: {
-        sell_currency_id: Object.values(this.props.currencies)[1].id.toString(),
-        buy_currency_id: Object.values(this.props.currencies)[0].id.toString(),
+        uah_currency_id: '',
+        currency_id: '',
         rate: '',
         sell_amount: '',
         amount: '',
-        comment: ''
+        comment: '',
+        action_type: 'buy'
       },
       rates: {}
     };
@@ -37,20 +38,21 @@ export default class Currencies extends React.Component {
         return rates[currency.id] = {buy_amount: currency.buy, sell_amount: currency.sell, id: currency.id}
       }
     });
-    const buy_currency = this.state.currencies[this.state.exchange.buy_currency_id];
-    const sell_currency = this.state.currencies[this.state.exchange.sell_currency_id];
-    let rate = 0;
-    if (buy_currency.name == 'UAH') {
-      rate = parseFloat(sell_currency.sell)
-    } else {
-      rate = parseFloat(buy_currency.buy)
-    }
+    const currency = Object.values(this.props.currencies).filter((currency) => {
+      return currency.name != 'UAH'
+    })[0];
+    const uah_currency = Object.values(this.props.currencies).filter((currency) => {
+      return currency.name == 'UAH'
+    })[0];
+    const rate = parseFloat(currency.buy);
     this.setState({
       ...this.state,
       loaded: true,
       exchange: {
         ...this.state.exchange,
-        rate: rate
+        rate: rate,
+        currency_id: currency.id,
+        uah_currency_id: uah_currency.id
       },
       rates: rates
     })
@@ -67,85 +69,61 @@ export default class Currencies extends React.Component {
         }
       }
     })
-  }
+  };
 
   cutFloat = (value) => {
     return (Math.floor(value * 100) / 100);
-  }
+  };
 
-  changeSellAmount = (type, field, value) => {
-    const buy_currency = this.state.currencies[this.state.exchange.buy_currency_id];
-    const sell_currency = this.state.currencies[this.state.exchange.sell_currency_id];
+  handleExchangeTypeChange = (type) => {
     let rate = 0;
-    let sell_amount = 0;
-    if (buy_currency.name == 'UAH') {
-      rate = parseFloat(sell_currency.sell)
-      sell_amount = parseFloat(value) / rate
+    if (type == 'sell') {
+      rate = this.state.currencies[this.state.exchange.currency_id].sell
     } else {
-      rate = parseFloat(buy_currency.buy)
-      sell_amount = parseFloat(value) * rate
+      rate = this.state.currencies[this.state.exchange.currency_id].buy
     }
     this.setState({
       ...this.state,
       exchange: {
         ...this.state.exchange,
-        sell_amount: this.cutFloat(sell_amount),
+        action_type: type,
+        rate: rate,
+        sell_amount: this.state.exchange.amount * rate
+      }
+    });
+  };
+
+  handleExchangeAmountChange = (value) => {
+    this.setState({
+      ...this.state,
+      exchange: {
+        ...this.state.exchange,
+        sell_amount: this.cutFloat(parseFloat(value) * this.state.exchange.rate),
         amount: value
       }
     })
   }
 
   handleInputChange = (type, field, value) => {
-    if (type == 'exchange' && field == 'amount') {
-      this.changeSellAmount(type, field, value);
-    } else if (type == 'exchange' && field == 'sell_currency_id') {
-      let rate = parseFloat(this.state.currencies[value].sell);
-      this.setState({
-        ...this.state,
-        exchange: {
-          ...this.state.exchange,
-          sell_currency_id: value.toString(),
-          rate: parseFloat(this.state.currencies[value].sell),
-          sell_amount: this.cutFloat(parseFloat(this.state.exchange.amount) / rate)
-        }
-      })
-    } else {
-      this.setState({
-        ...this.state,
-        [type]: {
-          ...this.state[type],
-          [field]: value
-        }
-      })
-    }
+    this.setState({
+      ...this.state,
+      [type]: {
+        ...this.state[type],
+        [field]: value
+      }
+    })
   };
 
-  handleBuyCurrency = (value) => {
-    let sell_currency_id = this.state.exchange.sell_currency_id;
-    const is_uah = this.state.currencies[value].name == 'UAH'
+  handleChangeCurrency = (value) => {
     let rate = 0;
     let sell_amount = 0;
-    if (is_uah) {
-      const myArray = Object.values(this.state.currencies).filter(function( obj ) {
-        return obj.id != value;
-      });
-      rate = parseFloat(this.state.currencies[myArray[0].id].sell)
-      sell_currency_id = myArray[0].id.toString();
-      sell_amount = this.cutFloat(parseFloat(this.state.exchange.amount) / rate)
-    } else {
-      const myArray = Object.values(this.state.currencies).filter(function( obj ) {
-        return obj.name == 'UAH';
-      });
-      rate = parseFloat(this.state.currencies[value].buy)
-      sell_currency_id = myArray[0].id
-      sell_amount = this.cutFloat(parseFloat(this.state.exchange.amount) * rate)
-    }
+    rate = parseFloat(this.state.currencies[value][this.state.exchange.action_type])
+    sell_amount = this.cutFloat(parseFloat(this.state.exchange.amount) * rate)
     this.setState({
       ...this.state,
       exchange: {
         ...this.state.exchange,
-        buy_currency_id: value,
-        sell_currency_id: sell_currency_id.toString(),
+        currency_id: value,
         rate: rate,
         sell_amount: sell_amount
       }
@@ -201,13 +179,22 @@ export default class Currencies extends React.Component {
   }
 
   submitExchange = () => {
+    let currency_id_sell = 0;
+    let currency_id_buy = 0;
+    if (this.state.exchange.action_type == 'buy') {
+      currency_id_sell = this.state.exchange.uah_currency_id
+      currency_id_buy = this.state.exchange.currency_id
+    } else {
+      currency_id_sell = this.state.exchange.currency_id
+      currency_id_buy = this.state.exchange.uah_currency_id
+    }
     $.ajax({
-      url: `/currencies/${this.state.exchange.buy_currency_id}/exchange.json`,
+      url: `/currencies/exchange.json`,
       type: 'POST',
       data: {
         exchange: {
-          currency_id_sell: this.state.exchange.sell_currency_id,
-          currency_id_buy: this.state.exchange.buy_currency_id,
+          currency_id_sell: currency_id_sell,
+          currency_id_buy: currency_id_buy,
           buy_amount: this.state.exchange.amount,
           comment: this.state.exchange.comment
         }
@@ -218,10 +205,10 @@ export default class Currencies extends React.Component {
           ...this.state,
           exchangeModal: false,
           exchange: {
-            sell_currency_id: Object.values(this.props.currencies)[1].id.toString(),
-            buy_currency_id: Object.values(this.props.currencies)[0].id.toString(),
+            ...this.state.exchange,
             amount: '',
-            comment: ''
+            comment: '',
+            sell_amount: ''
           },
           currencies: resp.currencies
         })
@@ -256,7 +243,6 @@ export default class Currencies extends React.Component {
   render() {
     console.log(this.state);
     const state = this.state;
-    const is_buy_uah = this.state.currencies[this.state.exchange.buy_currency_id].name == 'UAH'
     const myArray = Object.values(this.state.currencies).filter(function( obj ) {
       return obj.name == 'UAH';
     });
@@ -265,7 +251,7 @@ export default class Currencies extends React.Component {
         { this.state.loaded &&
           <Fragment>
             <NotificationContainer/>
-            <div className="container" style={{marginTop: 100 + 'px'}}>
+            <div className="container inside">
               <div className="input-submit">
                 { this.props.admin &&
                   <Fragment>
@@ -337,38 +323,31 @@ export default class Currencies extends React.Component {
             <Modal isOpen={this.state.exchangeModal} toggle={() => this.handleModal('exchangeModal')} size="lg">
               <div className='container'>
                 <ModalHeader className='text-center'  toggle={() => this.handleModal('exchangeModal')}>Обмін валюти</ModalHeader>
+                <FormGroup check>
+                  <Label check>
+                    <Input type="radio" name="exchange_action_type" checked={this.state.exchange.action_type == 'buy'} onClick={(e) => this.handleExchangeTypeChange('buy')} />
+                    Купівля
+                  </Label>
+                  <Label check>
+                    <Input type="radio" name="exchange_action_type" checked={this.state.exchange.action_type == 'sell'} onClick={(e) => this.handleExchangeTypeChange('sell')}/>
+                    Продаж
+                  </Label>
+                </FormGroup>
                 <FormGroup>
-                  <Label for="buy_currency">Валюта купівлі</Label>
-                  <Input type="select" name="buy_currency" id="buy_currency" defaultValue={this.state.exchange.buy_currency_id} onChange={(e) => this.handleBuyCurrency(e.target.value)}>
+                  <Label for="buy_currency">Валюта</Label>
+                  <Input type="select" name="currency" id="currency" defaultValue={this.state.exchange.currency_id} onChange={(e) => this.handleChangeCurrency(e.target.value)}>
                     { Object.values(this.state.currencies).map((currency) => {
-                      return <option key={currency.id} value={currency.id}>{currency.name}</option>
+                      return (
+                        <Fragment>
+                          { currency.name != 'UAH' &&
+                            <option key={currency.id} value={currency.id}>{currency.name}</option>}
+                        </Fragment>)
                     })}
                   </Input>
                 </FormGroup>
                 <FormGroup>
-                  <Label for="buy_amount">Кількість</Label>
-                  <Input type='number' id='buy_amount' value={this.state.exchange.amount} onChange={(e) => this.handleInputChange('exchange','amount', e.target.value)}/>
-                </FormGroup>
-                <FormGroup>
-                  <Label for="sell_currency">Валюта продажу</Label>
-                  <Input type="select" name="sell_currency" id="sell_currency" defaultValue={this.state.exchange.sell_currency_id} onChange={(e) => this.handleInputChange('exchange','sell_currency_id', e.target.value)}>
-                    <Fragment>
-                      { is_buy_uah ?
-                        <Fragment>
-                          { Object.values(this.state.currencies).map((currency) => {
-                            return (
-                              <Fragment>
-                                { currency.name != 'UAH' &&
-                                <option key={currency.id} value={currency.id}>{currency.name}</option>}
-                              </Fragment>
-                            )
-                          })}
-                        </Fragment>
-                      :
-                        <option key={myArray[0].id} value={myArray[0].id}>{myArray[0].name}</option>
-                      }
-                    </Fragment>
-                  </Input>
+                  <Label for="amount">Кількість</Label>
+                  <Input type='number' id='amount' value={this.state.exchange.amount} onChange={(e) => this.handleExchangeAmountChange(e.target.value)}/>
                 </FormGroup>
                 <FormGroup>
                   <div className='row'>
@@ -377,8 +356,8 @@ export default class Currencies extends React.Component {
                       <p><b>{this.state.exchange.rate || '-'}</b></p>
                     </div>
                     <div className='col-sm-6'>
-                      <Label>Сума продажу</Label>
-                      <p><b>{this.state.exchange.sell_amount || '-'}</b></p>
+                      <Label>Сума</Label>
+                      <p><b>{this.state.exchange.sell_amount || '0'}</b> грн</p>
                     </div>
                   </div>
                 </FormGroup>

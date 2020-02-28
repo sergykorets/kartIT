@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200226224931) do
+ActiveRecord::Schema.define(version: 20200228103340) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,12 +21,12 @@ ActiveRecord::Schema.define(version: 20200226224931) do
     t.integer "currency_id_sell"
     t.integer "currency_id"
     t.decimal "amount"
-    t.decimal "buy_amount"
-    t.decimal "sell_amount"
     t.decimal "rate"
     t.text "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "sell_amount"
+    t.decimal "buy_amount"
   end
 
   create_table "balances", force: :cascade do |t|
@@ -40,7 +40,6 @@ ActiveRecord::Schema.define(version: 20200226224931) do
     t.string "name"
     t.decimal "buy_price"
     t.decimal "sell_price"
-    t.decimal "current_amount"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

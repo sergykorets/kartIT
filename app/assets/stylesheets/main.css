@@ -332,3 +332,9 @@
     font-weight: bold;
     font-size: x-large;
 }
+.btn-secondary {
+    margin-right: 10px;
+}
+.inside {
+    margin-top: 100px;
+}

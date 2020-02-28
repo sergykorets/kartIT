@@ -11,10 +11,10 @@ Rails.application.routes.draw do
   resources :currencies do
     member do
       post :cashdesk
-      post :exchange
     end
     collection do
       post :change_rates
+      post :exchange
     end
   end
   get 'reactivate/edit', 'reactivate#edit'

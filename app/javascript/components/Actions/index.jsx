@@ -1,23 +1,36 @@
 import React, {Fragment} from 'react';
-import { Modal, ModalHeader, FormGroup, Label, Input } from 'reactstrap';
+import Pagination from "react-js-pagination";
 
 export default class Actions extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      actions: this.props.actions
+      actions: this.props.actions,
+      activePage: 1,
+      count: this.props.count
     };
   }
+
+  handlePageChange = (page) => {
+    $.ajax({
+      url: '/actions.json',
+      type: 'GET',
+      data: { page: page },
+      success: (resp) => {
+        this.setState({actions: resp.actions, activePage: page})
+      }
+    });
+  };
 
   render() {
     const translations = {
       collection: 'Інкасація',
-      replenishment: 'Поповнення',
+      replenishment: 'Поповнення'
     };
     return (
       <Fragment>
-        <div className="container" style={{marginTop: 100 + 'px'}}>
+        <div className="container inside">
           <table className='dark' style={{marginTop: 20 + 'px'}}>
             <thead>
             <tr>
@@ -40,6 +53,17 @@ export default class Actions extends React.Component {
             })}
             </tbody>
           </table>
+          { this.state.count > 10 &&
+            <Fragment>
+              <Pagination
+                activePage={this.state.activePage}
+                itemsCountPerPage={10}
+                totalItemsCount={this.state.count}
+                pageRangeDisplayed={Math.ceil(this.state.count/10)}
+                onChange={this.handlePageChange}
+              />
+              <hr/>
+            </Fragment>}
         </div>
       </Fragment>
     );

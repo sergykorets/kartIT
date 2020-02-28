@@ -7,9 +7,5 @@
 @import 'reset';
 @import 'responsive';
 @import 'main';
-
-@media (max-width: 991px) {
-  .container {
-    max-width: 100%;
-  }
-}
+@import 'pagination';
+@import 'mobile';

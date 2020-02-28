@@ -12,7 +12,7 @@ class Currency < ApplicationRecord
       plus_amounts_exchange = buy_actions.after_time(yesterday_balance.created_at)
       minus_amounts = cashdesk_actions.collection.after_time(yesterday_balance.created_at)
       minus_amounts_exchange = sell_actions.after_time(yesterday_balance.created_at)
-      if (plus_amounts || minus_amounts || plus_amounts_exchange || minus_amounts_exchange).exists?
+      if plus_amounts.any? || minus_amounts.any? || plus_amounts_exchange.any? || minus_amounts_exchange.any?
         yesterday_balance.interim_balance + plus_amounts.sum(:amount) + plus_amounts_exchange.sum(:buy_amount) - minus_amounts.sum(:amount) - minus_amounts_exchange.sum(:sell_amount)
       else
         yesterday_balance.interim_balance
@@ -22,7 +22,7 @@ class Currency < ApplicationRecord
       plus_amounts_exchange = buy_actions.after_time(last_balance.created_at)
       minus_amounts = cashdesk_actions.collection.after_time(last_balance.created_at)
       minus_amounts_exchange = sell_actions.after_time(last_balance.created_at)
-      current_amount = if (plus_amounts || minus_amounts || plus_amounts_exchange || minus_amounts_exchange).exists?
+      current_amount = if plus_amounts.any? || minus_amounts.any? || plus_amounts_exchange.any? || minus_amounts_exchange.any?
         last_balance.interim_balance + plus_amounts.sum(:amount) + plus_amounts_exchange.sum(:buy_amount) - minus_amounts.sum(:amount) - minus_amounts_exchange.sum(:sell_amount)
       else
         last_balance.interim_balance

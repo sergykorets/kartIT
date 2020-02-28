@@ -1,4 +1,5 @@
 class CurrenciesController < ApplicationController
+  before_action :check_user
 
   def index
     @currencies = Currency.all.each_with_object({}) { |currency, hash|
@@ -36,20 +37,21 @@ class CurrenciesController < ApplicationController
     action = Action.new(exchange_params)
     sell_currency = Currency.find(action.currency_id_sell)
     buy_currency = Currency.find(action.currency_id_buy)
-    rate = 0
-    sell_amount = 0
-    sell_amount = if buy_currency.name == 'UAH'
+    if buy_currency.name == 'UAH'
       rate = sell_currency.sell_price
-      action.buy_amount / rate
+      buy_amount = action.buy_amount * rate
+      sell_amount = action.buy_amount
     else
       rate = buy_currency.buy_price
-      action.buy_amount * rate
+      buy_amount = action.buy_amount
+      sell_amount = action.buy_amount * rate
     end
     check_amount = sell_currency.get_current_amount - sell_amount.to_d.truncate(2).to_f
     if check_amount >= 0
       action.rate = rate
       action.action_type = :exchange
       action.sell_amount = sell_amount.to_d.truncate(2).to_f
+      action.buy_amount = buy_amount.to_d.truncate(2).to_f
       action.save
       render json: {
           success: true,
@@ -92,6 +94,10 @@ class CurrenciesController < ApplicationController
 
   def exchange_params
     params.require(:exchange).permit(:currency_id_buy, :currency_id_sell, :buy_amount, :comment)
+  end
+
+  def check_user
+    head :no_content if current_user.simple?
   end
 
 end

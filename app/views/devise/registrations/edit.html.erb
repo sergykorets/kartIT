@@ -7,7 +7,7 @@
 					<span class="login100-form-title p-b-53">
 						Редагувати профіль
 					</span>
-        <% if current_user.admin %>
+        <% if current_user.admin? %>
           <%= link_to 'Admin panel', rails_admin_path, class: 'btn btn-danger'%>
         <%end%>
         <hr/>
