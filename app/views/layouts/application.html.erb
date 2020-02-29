@@ -12,7 +12,6 @@
     <%= render 'layouts/nav'%>
     <%= yield %>
     <% if current_user&.cashier? %>
-      <%#= binding.pry %>
       <% unless current_user&.new_rates_acknowleged %>
         <div id="new_rates_acknowledgment" class="modal show fade in" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static">
           <div class="modal-dialog" role="document">

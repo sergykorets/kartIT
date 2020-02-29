@@ -6,4 +6,5 @@ class Action < ApplicationRecord
   enum action_type: [:exchange, :collection, :replenishment]
 
   scope :after_time, ->(time) { where('created_at >= ?', time) }
+  scope :not_canceled, -> { where(canceled: false) }
 end

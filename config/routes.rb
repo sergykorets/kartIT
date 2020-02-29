@@ -7,7 +7,11 @@ Rails.application.routes.draw do
                                        omniauth_callbacks: 'omniauth_callbacks' }
   resources :actions
   resources :versions, only: :index
-  resources :transactions, only: :index
+  resources :transactions, only: :index do
+    member do
+      patch :cancel
+    end
+  end
   resources :currencies do
     member do
       post :cashdesk

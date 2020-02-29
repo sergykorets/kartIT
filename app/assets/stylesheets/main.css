@@ -311,7 +311,7 @@
     box-shadow: 0 6px 6px -6px #0E1119;
 }
 
-.dark td:hover {
+.dark .actions:hover {
     background-color: #FFF842;
     color: #403E10;
     font-weight: bold;
@@ -337,4 +337,21 @@
 }
 .inside {
     margin-top: 100px;
+}
+.canceled {
+    background-color: #502424 !important;
+}
+.sell {
+    background-color: #464603 !important;
+}
+.buy {
+    background-color: #072b07 !important;
+}
+.notification-container {
+    width: 500px;
+    padding: 50px;
+    font-size: x-large;
+}
+.fa-ban {
+    width: 2rem;
 }
