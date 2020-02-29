@@ -7,4 +7,5 @@ class Action < ApplicationRecord
 
   scope :after_time, ->(time) { where('created_at >= ?', time) }
   scope :not_canceled, -> { where(canceled: false) }
+  scope :for_today, -> {where('created_at >= ?', Date.today.beginning_of_day)}
 end

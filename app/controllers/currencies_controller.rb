@@ -60,6 +60,7 @@ class CurrenciesController < ApplicationController
       action.action_type = :exchange
       action.sell_amount = sell_amount.to_d.truncate(2).to_f
       action.buy_amount = buy_amount.to_d.truncate(2).to_f
+      action.number = Action.exchange.for_today.count + 1
       action.save
       render json: {
           success: true,

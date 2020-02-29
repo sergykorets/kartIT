@@ -282,6 +282,11 @@
     padding: 0 0 8em 0;
 }
 
+.dark i {
+    width: 1rem;
+    cursor: pointer;
+}
+
 .dark td, table th {
     padding-bottom: 2%;
     padding-top: 2%;
@@ -351,7 +356,4 @@
     width: 500px;
     padding: 50px;
     font-size: x-large;
-}
-.fa-ban {
-    width: 2rem;
 }

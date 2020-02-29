@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200229182112) do
+ActiveRecord::Schema.define(version: 20200229224019) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20200229182112) do
     t.decimal "sell_amount"
     t.decimal "buy_amount"
     t.boolean "canceled", default: false
+    t.integer "number"
   end
 
   create_table "balances", force: :cascade do |t|
