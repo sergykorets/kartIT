@@ -261,6 +261,8 @@ export default class Currencies extends React.Component {
                     <th><h1>Валюта</h1></th>
                     <th><h1>Купівля</h1></th>
                     <th><h1>Продаж</h1></th>
+                    <th><h1>Куплено</h1></th>
+                    <th><h1>Продано</h1></th>
                     <th><h1>Каса</h1></th>
                   </tr>
                 </thead>
@@ -271,6 +273,8 @@ export default class Currencies extends React.Component {
                       <td>{currency.name}</td>
                       <td>{currency.buy || '-'}</td>
                       <td>{currency.sell || '-'}</td>
+                      <td>{currency.bought_today}</td>
+                      <td>{currency.sold_today}</td>
                       <td>{currency.total_amount}</td>
                     </tr>
                   )
@@ -281,7 +285,7 @@ export default class Currencies extends React.Component {
 
             <Modal isOpen={this.state.cashDeskModal} toggle={() => this.handleModal('cashDeskModal')} size="lg">
               <div className='container'>
-                <ModalHeader className='text-center' toggle={() => this.handleModal('cashDeskModal')}>Дії з касою</ModalHeader>
+                <ModalHeader className='text-center'>Дії з касою</ModalHeader>
                 <FormGroup check>
                   <Label check>
                     <Input type="radio" name="cashdesk_action_type" checked={this.state.cashDesk.action_type == 'replenishment'} onClick={(e) => this.handleInputChange('cashDesk','action_type', 'replenishment')} />
@@ -317,7 +321,7 @@ export default class Currencies extends React.Component {
 
             <Modal isOpen={this.state.exchangeModal} toggle={() => this.handleModal('exchangeModal')} size="lg">
               <div className='container'>
-                <ModalHeader className='text-center'  toggle={() => this.handleModal('exchangeModal')}>Обмін валюти</ModalHeader>
+                <ModalHeader className='text-center'>Обмін валюти</ModalHeader>
                 <FormGroup check>
                   <Label check>
                     <Input type="radio" name="exchange_action_type" checked={this.state.exchange.action_type == 'buy'} onClick={(e) => this.handleExchangeTypeChange('buy')} />
@@ -362,14 +366,14 @@ export default class Currencies extends React.Component {
                 </FormGroup>
                 <FormGroup>
                   <ButtonToggle color="secondary" onClick={() => this.handleModal('exchangeModal')}>Відміна</ButtonToggle>
-                  <ButtonToggle color="success" onClick={this.submitExchange}>Зберегти</ButtonToggle>
+                  <ButtonToggle color={this.state.exchange.action_type == 'buy' ? 'success' : 'warning'} onClick={this.submitExchange}>{this.state.exchange.action_type == 'buy' ? 'Купити' : 'Продати'}</ButtonToggle>
                 </FormGroup>
               </div>
             </Modal>
 
             <Modal isOpen={this.state.ratesModal} toggle={() => this.handleModal('ratesModal')} size="lg">
               <div className='container'>
-                <ModalHeader className='text-center'  toggle={() => this.handleModal('ratesModal')}>Зміна курсу валют</ModalHeader>
+                <ModalHeader className='text-center'>Зміна курсу валют</ModalHeader>
                 <FormGroup>
                   <table className='table' style={{marginTop: 20 + 'px'}}>
                     <thead>

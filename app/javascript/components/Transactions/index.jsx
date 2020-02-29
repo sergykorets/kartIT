@@ -48,6 +48,7 @@ export default class Actions extends React.Component {
           <table className='dark' style={{marginTop: 20 + 'px'}}>
             <thead>
             <tr>
+              <th><h1>№</h1></th>
               <th><h1>Валюта купівлі</h1></th>
               <th><h1>Валюта продажу</h1></th>
               <th><h1>Кількість купівлі</h1></th>
@@ -61,6 +62,10 @@ export default class Actions extends React.Component {
             { this.state.actions.map((action, index) => {
               return (
                 <tr key={index} className={action.is_canceled ? 'canceled' : (action.currency_sell == 'UAH' ? 'sell' : 'buy')}>
+                  <td>
+                    { this.props.todays_transactions_count - index <= 0 ?
+                      '-' : this.props.todays_transactions_count - index}
+                  </td>
                   <td>{action.currency_sell}</td>
                   <td>{action.currency_buy}</td>
                   <td>{action.buy_amount}</td>
