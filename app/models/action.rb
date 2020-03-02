@@ -8,4 +8,7 @@ class Action < ApplicationRecord
   scope :after_time, ->(time) { where('created_at >= ?', time) }
   scope :not_canceled, -> { where(canceled: false) }
   scope :for_today, -> {where('created_at >= ?', Date.today.beginning_of_day)}
+
+  validates :amount, numericality: { greater_than: 0 }, if: -> { collection? || replenishment? }
+  validates :buy_amount, numericality: { greater_than: 0 }, if: -> { exchange? }
 end

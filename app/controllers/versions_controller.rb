@@ -6,8 +6,8 @@ class VersionsController < ApplicationController
     @count = versions.count
     @versions = versions.page(params[:page] || 1).per(10).map do |version|
       { currency: Currency.find(version.item_id).name,
-        currency_buy_rate: version.reify.buy_price,
-        currency_sell_rate: version.reify.sell_price,
+        currency_buy_change_rate: version.changeset['buy_price'],
+        currency_sell_change_rate: version.changeset['sell_price'],
         created_at: version.created_at.strftime('%d.%m.%Y %H:%M')}
     end
     respond_to do |format|

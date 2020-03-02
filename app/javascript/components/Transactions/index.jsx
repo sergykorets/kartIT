@@ -47,21 +47,50 @@ export default class Actions extends React.Component {
 
   printAction = (action_id) => {
     if (window.confirm("Роздрукувати чек?")) {
-      const content = <p>{this.state.actions[action_id].currency_sell}</p>
-      var pri = document.getElementById("ifmcontentstoprint").contentWindow;
+      const content =
+        <div className='container'>
+          <h3 style={{lineHeight: 0.1+'rem'}}>Товариство з обмеженою відповідальністю "Фінансова компанія Октава Фінанс"</h3>
+          <h3 style={{lineHeight: 0.1+'rem'}}>Рівненське відділення №15</h3>
+          <h3 style={{lineHeight: 0.1+'rem'}}>34700 Рівненська обл. м. Корець, пл. Київська, 3</h3>
+          <p style={{textAlign: 'center', marginTop: 3+'rem', marginBottom: 3+'rem'}}>КВИТАНЦІЯ №{this.state.actions[action_id].number}</p>
+          <table>
+            <tbody>
+              <tr>
+                <td style={{paddingRight: 3+'rem'}}>Сума</td>
+                <td>{this.state.actions[action_id].buy_amount} {this.state.actions[action_id].currency_sell}</td>
+              </tr>
+              <tr>
+                <td style={{paddingRight: 3+'rem'}}>До видачі</td>
+                <td>{this.state.actions[action_id].sell_amount} {this.state.actions[action_id].currency_buy}</td>
+              </tr>
+              <tr>
+                <td style={{paddingRight: 3+'rem'}}>Курс</td>
+                <td>{this.state.actions[action_id].rate}</td>
+              </tr>
+              <tr>
+                <td style={{paddingRight: 3+'rem'}}>Дата</td>
+                <td>{this.state.actions[action_id].created_at}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div style={{display: 'flex', justifyContent: 'space-between', marginTop: 6+'rem'}}>
+            <span>ФІСКАЛЬНИЙ ЧЕК</span><span>ІКС</span>
+          </div>
+        </div>;
+      const pri = document.getElementById("ifmcontentstoprint").contentWindow;
       pri.document.open();
       pri.document.write(ReactDOMServer.renderToString(content));
       pri.document.close();
       pri.focus();
       pri.print();
     }
-  }
+  };
 
   render() {
     return (
       <Fragment>
         <NotificationContainer/>
-        <iframe id="ifmcontentstoprint" style={{height: 0+'px', width: 0+'px', position: 'absolute'}}></iframe>
+        <iframe id="ifmcontentstoprint" style={{height: 0+'px', width: 0+'px', position: 'absolute'}}/>
         <div className="container inside">
           <table className='dark' style={{marginTop: 20 + 'px'}}>
             <thead>
@@ -69,8 +98,8 @@ export default class Actions extends React.Component {
               <th><h1>№</h1></th>
               <th><h1>Валюта купівлі</h1></th>
               <th><h1>Валюта продажу</h1></th>
-              <th><h1>Кількість купівлі</h1></th>
-              <th><h1>Кількість продажі</h1></th>
+              <th><h1>Сума купівлі</h1></th>
+              <th><h1>Сума продажу</h1></th>
               <th><h1>Курс</h1></th>
               <th><h1>Дата</h1></th>
               <th><h1>Дії</h1></th>

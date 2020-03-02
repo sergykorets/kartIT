@@ -173,7 +173,7 @@ export default class Currencies extends React.Component {
           NotificationManager.success('Касу проінкасовано');
         }
       } else {
-        NotificationManager.error('Залишок валюти замалий', 'Неможливо зробити дію');
+        NotificationManager.error(resp.error, 'Неможливо зробити дію');
       }
     });
   }
@@ -214,7 +214,7 @@ export default class Currencies extends React.Component {
         })
         NotificationManager.success('Обмін валют виконано');
       } else {
-        NotificationManager.error('Залишок валюти продажі замалий', 'Неможливо зробити дію');
+        NotificationManager.error(resp.error, 'Неможливо зробити дію');
       }
     });
   }
@@ -285,7 +285,7 @@ export default class Currencies extends React.Component {
 
             <Modal isOpen={this.state.cashDeskModal} toggle={() => this.handleModal('cashDeskModal')} size="lg">
               <div className='container'>
-                <ModalHeader className='text-center'>Дії з касою</ModalHeader>
+                <ModalHeader>Дії з касою</ModalHeader>
                 <FormGroup check>
                   <Label check>
                     <Input type="radio" name="cashdesk_action_type" checked={this.state.cashDesk.action_type == 'replenishment'} onClick={(e) => this.handleInputChange('cashDesk','action_type', 'replenishment')} />
@@ -296,18 +296,24 @@ export default class Currencies extends React.Component {
                     Інкасація
                   </Label>
                 </FormGroup>
-                <FormGroup>
-                  <Label for="currency">Валюта</Label>
-                  <Input type="select" name="currency" id="currency" defaultValue={this.state.cashDesk.currency_id} onChange={(e) => this.handleInputChange('cashDesk','currency_id', e.target.value)}>
-                    { Object.values(this.state.currencies).map((currency) => {
-                      return <option key={currency.id} value={currency.id}>{currency.name}</option>
-                    })}
-                  </Input>
-                </FormGroup>
-                <FormGroup>
-                  <Label for="amount">Кількість</Label>
-                  <Input type='number' id='amount' value={this.state.cashDesk.amount} onChange={(e) => this.handleInputChange('cashDesk','amount', e.target.value)}/>
-                </FormGroup>
+                <div className='row'>
+                  <div className='col-6'>
+                    <FormGroup>
+                      <Label for="currency">Валюта</Label>
+                      <Input type="select" name="currency" id="currency" defaultValue={this.state.cashDesk.currency_id} onChange={(e) => this.handleInputChange('cashDesk','currency_id', e.target.value)}>
+                        { Object.values(this.state.currencies).map((currency) => {
+                          return <option key={currency.id} value={currency.id}>{currency.name}</option>
+                        })}
+                      </Input>
+                    </FormGroup>
+                  </div>
+                  <div className='col-6'>
+                    <FormGroup>
+                      <Label for="amount">Сума</Label>
+                      <Input type='number' id='amount' value={this.state.cashDesk.amount} onChange={(e) => this.handleInputChange('cashDesk','amount', e.target.value)}/>
+                    </FormGroup>
+                  </div>
+                </div>
                 <FormGroup>
                   <Label for="comment">Опис</Label>
                   <Input type='textarea' id='comment' value={this.state.cashDesk.comment} onChange={(e) => this.handleInputChange('cashDesk','comment', e.target.value)}/>
@@ -321,7 +327,7 @@ export default class Currencies extends React.Component {
 
             <Modal isOpen={this.state.exchangeModal} toggle={() => this.handleModal('exchangeModal')} size="lg">
               <div className='container'>
-                <ModalHeader className='text-center'>Обмін валюти</ModalHeader>
+                <ModalHeader>Обмін валюти</ModalHeader>
                 <FormGroup check>
                   <Label check>
                     <Input type="radio" name="exchange_action_type" checked={this.state.exchange.action_type == 'buy'} onClick={(e) => this.handleExchangeTypeChange('buy')} />
@@ -332,22 +338,28 @@ export default class Currencies extends React.Component {
                     Продаж
                   </Label>
                 </FormGroup>
-                <FormGroup>
-                  <Label for="buy_currency">Валюта</Label>
-                  <Input type="select" name="currency" id="currency" defaultValue={this.state.exchange.currency_id} onChange={(e) => this.handleChangeCurrency(e.target.value)}>
-                    { Object.values(this.state.currencies).map((currency) => {
-                      return (
-                        <Fragment>
-                          { currency.name != 'UAH' &&
-                            <option key={currency.id} value={currency.id}>{currency.name}</option>}
-                        </Fragment>)
-                    })}
-                  </Input>
-                </FormGroup>
-                <FormGroup>
-                  <Label for="amount">Кількість</Label>
-                  <Input type='number' id='amount' value={this.state.exchange.amount} onChange={(e) => this.handleExchangeAmountChange(e.target.value)}/>
-                </FormGroup>
+                <div className='row'>
+                  <div className='col-6'>
+                    <FormGroup>
+                      <Label for="buy_currency">Валюта</Label>
+                      <Input type="select" name="currency" id="currency" defaultValue={this.state.exchange.currency_id} onChange={(e) => this.handleChangeCurrency(e.target.value)}>
+                        { Object.values(this.state.currencies).map((currency) => {
+                          return (
+                            <Fragment>
+                              { currency.name != 'UAH' &&
+                                <option key={currency.id} value={currency.id}>{currency.name}</option>}
+                            </Fragment>)
+                        })}
+                      </Input>
+                    </FormGroup>
+                  </div>
+                  <div className='col-6'>
+                    <FormGroup>
+                      <Label for="amount">Сума</Label>
+                      <Input type='number' id='amount' value={this.state.exchange.amount} onChange={(e) => this.handleExchangeAmountChange(e.target.value)}/>
+                    </FormGroup>
+                  </div>
+                </div>
                 <FormGroup>
                   <div className='row'>
                     <div className='col-sm-6'>
@@ -355,7 +367,7 @@ export default class Currencies extends React.Component {
                       <p><b>{this.state.exchange.rate || '-'}</b></p>
                     </div>
                     <div className='col-sm-6'>
-                      <Label>Сума</Label>
+                      <Label>До видачі</Label>
                       <p><b>{this.state.exchange.sell_amount || '0'}</b> грн</p>
                     </div>
                   </div>
@@ -373,7 +385,7 @@ export default class Currencies extends React.Component {
 
             <Modal isOpen={this.state.ratesModal} toggle={() => this.handleModal('ratesModal')} size="lg">
               <div className='container'>
-                <ModalHeader className='text-center'>Зміна курсу валют</ModalHeader>
+                <ModalHeader>Зміна курсу валют</ModalHeader>
                 <FormGroup>
                   <table className='table' style={{marginTop: 20 + 'px'}}>
                     <thead>

@@ -41,8 +41,14 @@ export default class Versions extends React.Component {
               return (
                 <tr key={index}>
                   <td>{version.currency}</td>
-                  <td>{version.currency_buy_rate}</td>
-                  <td>{version.currency_sell_rate}</td>
+                  <td>
+                    { version.currency_buy_change_rate ?
+                      `${version.currency_buy_change_rate[0]} => ${version.currency_buy_change_rate[1]}` : 'Без змін'}
+                  </td>
+                  <td>
+                    { version.currency_sell_change_rate ?
+                      `${version.currency_sell_change_rate[0]} => ${version.currency_sell_change_rate[1]}` : 'Без змін'}
+                  </td>
                   <td>{version.created_at}</td>
                 </tr>
               )

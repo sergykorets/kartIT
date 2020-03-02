@@ -16,24 +16,28 @@ class CurrenciesController < ApplicationController
 
   def cashdesk
     action = Action.new(cashdesk_params)
-    currency = Currency.find(action.currency_id)
-    check_amount = if action.collection?
-      currency.get_current_amount - action.amount
+    if action.valid?
+      currency = Currency.find(action.currency_id)
+      check_amount = if action.collection?
+        currency.get_current_amount - action.amount
+      else
+        currency.get_current_amount + action.amount
+      end
+      if check_amount >= 0
+        action.save
+        render json: {
+          success: true,
+          action_type: action.action_type,
+          total_amount: check_amount,
+          bought_today: currency.bought_today,
+          sold_today: currency.sold_today,
+          currency_id: currency.id
+        }
+      else
+        render json: { success: false, error: 'Залишок валюти замалий' }
+      end
     else
-      currency.get_current_amount + action.amount
-    end
-    if check_amount >= 0
-      action.save
-      render json: {
-        success: true,
-        action_type: action.action_type,
-        total_amount: check_amount,
-        bought_today: currency.bought_today,
-        sold_today: currency.sold_today,
-        currency_id: currency.id
-      }
-    else
-      render json: { success: false }
+      render json: { success: false, error: 'Сума має перевищувати 0' }
     end
   end
 
@@ -43,40 +47,44 @@ class CurrenciesController < ApplicationController
       return
     end
     action = Action.new(exchange_params)
-    sell_currency = Currency.find(action.currency_id_sell)
-    buy_currency = Currency.find(action.currency_id_buy)
-    if buy_currency.name == 'UAH'
-      rate = sell_currency.sell_price
-      buy_amount = action.buy_amount * rate
-      sell_amount = action.buy_amount
+    action.action_type = :exchange
+    if action.valid?
+      sell_currency = Currency.find(action.currency_id_sell)
+      buy_currency = Currency.find(action.currency_id_buy)
+      if buy_currency.name == 'UAH'
+        rate = sell_currency.sell_price
+        buy_amount = action.buy_amount * rate
+        sell_amount = action.buy_amount
+      else
+        rate = buy_currency.buy_price
+        buy_amount = action.buy_amount
+        sell_amount = action.buy_amount * rate
+      end
+      check_amount = sell_currency.get_current_amount - sell_amount.to_d.truncate(2).to_f
+      if check_amount >= 0
+        action.rate = rate
+        action.sell_amount = sell_amount.to_d.truncate(2).to_f
+        action.buy_amount = buy_amount.to_d.truncate(2).to_f
+        action.number = Action.exchange.for_today.count + 1
+        action.save
+        render json: {
+            success: true,
+            total_amount: check_amount,
+            currencies: Currency.all.each_with_object({}) { |currency, hash|
+              hash[currency.id] = { id: currency.id,
+                                    name: currency.name,
+                                    sell: currency.sell_price,
+                                    buy: currency.buy_price,
+                                    bought_today: currency.bought_today,
+                                    sold_today: currency.sold_today,
+                                    total_amount: currency.get_current_amount}
+            }
+        }
+      else
+        render json: { success: false, error: 'Залишок валюти продажі замалий' }
+      end
     else
-      rate = buy_currency.buy_price
-      buy_amount = action.buy_amount
-      sell_amount = action.buy_amount * rate
-    end
-    check_amount = sell_currency.get_current_amount - sell_amount.to_d.truncate(2).to_f
-    if check_amount >= 0
-      action.rate = rate
-      action.action_type = :exchange
-      action.sell_amount = sell_amount.to_d.truncate(2).to_f
-      action.buy_amount = buy_amount.to_d.truncate(2).to_f
-      action.number = Action.exchange.for_today.count + 1
-      action.save
-      render json: {
-          success: true,
-          total_amount: check_amount,
-          currencies: Currency.all.each_with_object({}) { |currency, hash|
-            hash[currency.id] = { id: currency.id,
-                                  name: currency.name,
-                                  sell: currency.sell_price,
-                                  buy: currency.buy_price,
-                                  bought_today: currency.bought_today,
-                                  sold_today: currency.sold_today,
-                                  total_amount: currency.get_current_amount}
-          }
-      }
-    else
-      render json: { success: false }
+      render json: { success: false, error: 'Сума має перевищувати 0' }
     end
   end
 

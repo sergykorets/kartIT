@@ -36,14 +36,14 @@ export default class Actions extends React.Component {
             <tr>
               <th><h1>Тип</h1></th>
               <th><h1>Валюта</h1></th>
-              <th><h1>Кількість</h1></th>
+              <th><h1>Сума</h1></th>
               <th><h1>Дата</h1></th>
             </tr>
             </thead>
             <tbody>
             { this.state.actions.map((action, index) => {
               return (
-                <tr key={index}>
+                <tr key={index} className={action.action_type == 'collection' ? 'sell' : 'buy'}>
                   <td>{translations[action.action_type]}</td>
                   <td>{action.currency}</td>
                   <td>{action.amount}</td>
