@@ -235,7 +235,7 @@ export default class Currencies extends React.Component {
         })
         NotificationManager.success('Зміну курсів валют виконано');
       } else {
-        NotificationManager.error('Перезавантажте сторінку', 'Неможливо зробити дію');
+        NotificationManager.error(resp.error, 'Неможливо зробити дію');
       }
     });
   }
