@@ -7,6 +7,7 @@ class Currency < ApplicationRecord
   has_paper_trail only: [:buy_price, :sell_price], on: :update, versions: { class_name: 'Version' }
 
   validates :sell_price, :numericality => { :greater_than => :buy_price }
+  validates_presence_of :sell_price, :buy_price
 
   def get_current_amount
     if last_balance = balances.last
