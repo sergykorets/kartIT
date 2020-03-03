@@ -11,16 +11,16 @@ class Currency < ApplicationRecord
 
   def get_current_amount
     if last_balance = balances.last
-      plus_amounts = cashdesk_actions.replenishment.after_time(last_balance.created_at.beginning_of_day)
-      plus_amounts_exchange = buy_actions.not_canceled.after_time(last_balance.created_at.beginning_of_day)
-      minus_amounts = cashdesk_actions.collection.after_time(last_balance.created_at.beginning_of_day)
-      minus_amounts_exchange = sell_actions.not_canceled.after_time(last_balance.created_at.beginning_of_day)
+      plus_amounts = cashdesk_actions.replenishment.after_time(last_balance.created_at)
+      plus_amounts_exchange = buy_actions.not_canceled.after_time(last_balance.created_at)
+      minus_amounts = cashdesk_actions.collection.after_time(last_balance.created_at)
+      minus_amounts_exchange = sell_actions.not_canceled.after_time(last_balance.created_at)
       current_amount = if plus_amounts.any? || minus_amounts.any? || plus_amounts_exchange.any? || minus_amounts_exchange.any?
         last_balance.interim_balance + plus_amounts.sum(:amount) + plus_amounts_exchange.sum(:buy_amount) - minus_amounts.sum(:amount) - minus_amounts_exchange.sum(:sell_amount)
       else
         last_balance.interim_balance
       end
-      balances.create(interim_balance: current_amount) unless balances.where('balances.created_at >= ?', Date.yesterday.beginning_of_day).exists?
+      balances.create(interim_balance: current_amount) unless balances.where('balances.created_at >= ?', 1.day.ago).exists?
       current_amount
     else
       plus_amounts = cashdesk_actions.replenishment.sum(:amount)
