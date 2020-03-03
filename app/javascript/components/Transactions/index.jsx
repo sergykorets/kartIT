@@ -110,8 +110,8 @@ export default class Actions extends React.Component {
                 return (
                   <tr key={index} className={action.is_canceled ? 'canceled' : (action.currency_sell == 'UAH' ? 'sell' : 'buy')}>
                     <td>{action.number}</td>
-                    <td>{action.currency_sell}</td>
-                    <td>{action.currency_buy}</td>
+                    <td><img className='currency-icon' src={`/images/${action.currency_sell}.svg`}/>{action.currency_sell}</td>
+                    <td><img className='currency-icon' src={`/images/${action.currency_buy}.svg`}/>{action.currency_buy}</td>
                     <td>{action.buy_amount}</td>
                     <td>{action.sell_amount}</td>
                     <td>{action.rate}</td>

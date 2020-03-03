@@ -270,7 +270,7 @@ export default class Currencies extends React.Component {
                 { Object.values(this.state.currencies).map((currency) => {
                   return (
                     <tr key={currency.id}>
-                      <td>{currency.name}</td>
+                      <td><img className='currency-icon' src={`/images/${currency.name}.svg`}/>{currency.name}</td>
                       <td>{currency.buy || '-'}</td>
                       <td>{currency.sell || '-'}</td>
                       <td>{currency.bought_today}</td>
@@ -299,7 +299,7 @@ export default class Currencies extends React.Component {
                 <div className='row'>
                   <div className='col-6'>
                     <FormGroup>
-                      <Label for="currency">Валюта</Label>
+                      <Label for="currency">Валюта <img className='currency-icon-small' src={`/images/${this.state.currencies[this.state.cashDesk.currency_id].name}.svg`}/></Label>
                       <Input type="select" name="currency" id="currency" defaultValue={this.state.cashDesk.currency_id} onChange={(e) => this.handleInputChange('cashDesk','currency_id', e.target.value)}>
                         { Object.values(this.state.currencies).map((currency) => {
                           return <option key={currency.id} value={currency.id}>{currency.name}</option>
@@ -341,7 +341,7 @@ export default class Currencies extends React.Component {
                 <div className='row'>
                   <div className='col-6'>
                     <FormGroup>
-                      <Label for="buy_currency">Валюта</Label>
+                      <Label for="buy_currency">Валюта <img className='currency-icon-small' src={`/images/${this.state.currencies[this.state.exchange.currency_id].name}.svg`}/></Label>
                       <Input type="select" name="currency" id="currency" defaultValue={this.state.exchange.currency_id} onChange={(e) => this.handleChangeCurrency(e.target.value)}>
                         { Object.values(this.state.currencies).map((currency) => {
                           return (
@@ -401,7 +401,7 @@ export default class Currencies extends React.Component {
                         <Fragment>
                           { currency.name != 'UAH' &&
                             <tr key={currency.id}>
-                              <td>{currency.name}</td>
+                              <td><img className='currency-icon' src={`/images/${currency.name}.svg`}/>{currency.name}</td>
                               <td><Input type='number' id={`buy_amount_${currency.id}`} value={this.state.rates[currency.id].buy_amount} onChange={(e) => this.handleRatesChange(currency.id, 'buy_amount', e.target.value)}/></td>
                               <td><Input type='number' id={`sell_amount_${currency.id}`} value={this.state.rates[currency.id].sell_amount} onChange={(e) => this.handleRatesChange(currency.id, 'sell_amount',  e.target.value)}/></td>
                             </tr>}

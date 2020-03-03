@@ -45,7 +45,7 @@ export default class Actions extends React.Component {
               return (
                 <tr key={index} className={action.action_type == 'collection' ? 'sell' : 'buy'}>
                   <td>{translations[action.action_type]}</td>
-                  <td>{action.currency}</td>
+                  <td><img className='currency-icon' src={`/images/${action.currency}.svg`}/>{action.currency}</td>
                   <td>{action.amount}</td>
                   <td>{action.created_at}</td>
                 </tr>

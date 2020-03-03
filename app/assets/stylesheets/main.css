@@ -356,5 +356,18 @@
     width: 600px;
     padding: 50px;
     font-size: x-large;
-    margin-top: 100px;
+}
+.currency-icon {
+    height: 32px;
+    margin-right: 10px;
+}
+.currency-icon-small {
+    height: 10px;
+    margin-right: 10px;
+}
+.green {
+    color: green;
+}
+.yellow {
+    color: yellow;
 }

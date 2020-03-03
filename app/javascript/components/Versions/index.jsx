@@ -40,14 +40,18 @@ export default class Versions extends React.Component {
             { this.state.versions.map((version, index) => {
               return (
                 <tr key={index}>
-                  <td>{version.currency}</td>
+                  <td><img className='currency-icon' src={`/images/${version.currency}.svg`}/>{version.currency}</td>
                   <td>
                     { version.currency_buy_change_rate ?
-                      `${version.currency_buy_change_rate[0]} => ${version.currency_buy_change_rate[1]}` : 'Без змін'}
+                      <Fragment>
+                        <span>{version.currency_buy_change_rate[0]}</span> => <span className={parseFloat(version.currency_buy_change_rate[1]) > parseFloat(version.currency_buy_change_rate[0]) ? 'green' : 'yellow'}>{version.currency_buy_change_rate[1]}</span>
+                      </Fragment> : 'Без змін'}
                   </td>
                   <td>
                     { version.currency_sell_change_rate ?
-                      `${version.currency_sell_change_rate[0]} => ${version.currency_sell_change_rate[1]}` : 'Без змін'}
+                      <Fragment>
+                        <span>{version.currency_sell_change_rate[0]}</span> => <span className={parseFloat(version.currency_sell_change_rate[1]) > parseFloat(version.currency_sell_change_rate[0]) ? 'green' : 'yellow'}>{version.currency_sell_change_rate[1]}</span>
+                      </Fragment> : 'Без змін'}
                   </td>
                   <td>{version.created_at}</td>
                 </tr>
