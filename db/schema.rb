@@ -10,47 +10,48 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200302122816) do
+ActiveRecord::Schema.define(version: 20200315222621) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "actions", force: :cascade do |t|
-    t.integer "action_type"
-    t.integer "currency_id_buy"
-    t.integer "currency_id_sell"
-    t.integer "currency_id"
-    t.decimal "amount"
-    t.decimal "rate"
-    t.text "comment"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.decimal "sell_amount"
-    t.decimal "buy_amount"
-    t.boolean "canceled", default: false
-    t.integer "number"
+  create_table "photos", force: :cascade do |t|
+    t.string "picture_file_name"
+    t.string "picture_content_type"
+    t.integer "picture_file_size"
+    t.datetime "picture_updated_at"
+    t.string "picture_url"
+    t.integer "race_id"
+    t.string "comment"
   end
 
-  create_table "balances", force: :cascade do |t|
-    t.integer "currency_id"
-    t.decimal "interim_balance"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "currencies", force: :cascade do |t|
+  create_table "race_standings", force: :cascade do |t|
+    t.integer "place"
+    t.integer "user_id"
+    t.integer "race_id"
     t.string "name"
-    t.decimal "buy_price"
-    t.decimal "sell_price"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string "company"
+    t.string "specialization"
+  end
+
+  create_table "races", force: :cascade do |t|
+    t.integer "number"
+    t.integer "season"
+    t.datetime "date"
+    t.integer "configuration"
+    t.integer "weather"
+    t.decimal "best_lap"
+    t.integer "best_lap_user_id"
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "name", null: false
-    t.integer "role", null: false
+    t.integer "role", default: 0, null: false
+    t.string "last_name", null: false
+    t.string "company", null: false
+    t.string "specialization", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -68,20 +69,8 @@ ActiveRecord::Schema.define(version: 20200302122816) do
     t.string "provider"
     t.string "uid"
     t.string "remote_avatar_url"
-    t.boolean "new_rates_acknowleged", default: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-  end
-
-  create_table "versions", force: :cascade do |t|
-    t.string "item_type", null: false
-    t.bigint "item_id", null: false
-    t.string "event", null: false
-    t.string "whodunnit"
-    t.text "object"
-    t.datetime "created_at"
-    t.text "object_changes"
-    t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
 end

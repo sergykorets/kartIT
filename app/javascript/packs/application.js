@@ -1,13 +1,13 @@
 import ReactOnRails from 'react-on-rails';
-import Currencies from '../components/Currencies';
-import Actions from '../components/Actions';
-import Versions from '../components/Versions';
-import Transactions from '../components/Transactions';
+import Home from '../components/Pages';
+import Races from '../components/Races';
+import Race from '../components/Races/race';
+import Standings from '../components/Pages/standings';
 
 // This is how react_on_rails can see the HelloWorld in the browser.
 ReactOnRails.register({
-  Currencies,
-  Actions,
-  Versions,
-  Transactions
+  Home,
+  Races,
+  Race,
+  Standings
 });

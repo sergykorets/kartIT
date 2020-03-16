@@ -1,15 +1,8 @@
 @import 'bootstrap';
 @import "font-awesome";
-@import "react-image-gallery/styles/scss/image-gallery.scss";
-@import 'daterangepicker';
 @import 'notifications';
-@import 'style';
-@import 'reset';
-@import 'responsive';
 @import 'main';
-@import 'pagination';
-@import 'mobile';
-
-#new_rates_acknowledgment {
-  display: block;
-}
+@import 'race';
+@import "scss/main";
+@import "react-image-gallery/styles/scss/image-gallery.scss";
+@import "login";

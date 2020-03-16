@@ -7,7 +7,14 @@ class User < ApplicationRecord
   has_attached_file :avatar, styles: { medium: "200x200#", thumb: "100x100#" }, default_url: "/images/missing.jpg"
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\z/
 
-  enum role: [:admin, :cashier, :simple]
+  has_many :race_standings
+  has_many :races, through: :race_standings
+
+  enum role: [:racer, :admin, :manager]
+
+  scope :in_season, ->(season) {joins(:races).where(races: {season: season}).uniq}
+
+  validates_presence_of :name, :last_name, :company, :specialization
 
   def self.find_for_oauth(auth)
     user = User.where(uid: auth.uid, provider: auth.provider).first
@@ -49,4 +56,15 @@ class User < ApplicationRecord
     update_attribute(:deleted_at, Time.current)
   end
 
+  def full_name
+    "#{name} #{last_name}"
+  end
+
+  def points_in_season(season)
+    sum = []
+    race_standings.joins(:race).where(races: {season: season}).each do |s|
+      sum << s.points(season, s.place)
+    end
+    sum.sum - sum.min
+  end
 end

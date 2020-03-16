@@ -6,4 +6,4 @@ default: &default
 
 development:
   <<: *default
-  database: currency_development
+  database: it_racing_development

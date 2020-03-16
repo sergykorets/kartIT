@@ -1,0 +1,209 @@
+import React, {Fragment} from 'react';
+import { Modal, ModalHeader, FormGroup, Label, Input, ButtonToggle } from 'reactstrap';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
+import YouTube from 'react-youtube';
+import ImageGallery from 'react-image-gallery';
+
+export default class Home extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+
+    };
+  }
+
+  componentDidMount() {
+
+  }
+
+  handleClick = (url) => {
+    window.location = url;
+  }
+
+  render() {
+    const images = [
+      {
+        original: 'https://static.wixstatic.com/media/729cbe_b810126632a540e7a3a5687db433e60a.jpg/v1/fill/w_1279,h_847,al_c,q_90/729cbe_b810126632a540e7a3a5687db433e60a.webp',
+        thumbnail: 'https://static.wixstatic.com/media/729cbe_b810126632a540e7a3a5687db433e60a.jpg/v1/fill/w_1279,h_847,al_c,q_90/729cbe_b810126632a540e7a3a5687db433e60a.webp',
+      },
+      {
+        original: 'https://static.wixstatic.com/media/729cbe_ed941877cb8d47ba801c6b278b47d27a.jpg/v1/fill/w_1279,h_847,al_c,q_90/729cbe_ed941877cb8d47ba801c6b278b47d27a.webp',
+        thumbnail: 'https://static.wixstatic.com/media/729cbe_ed941877cb8d47ba801c6b278b47d27a.jpg/v1/fill/w_1279,h_847,al_c,q_90/729cbe_ed941877cb8d47ba801c6b278b47d27a.webp',
+      },
+      {
+        original: 'https://static.wixstatic.com/media/729cbe_0ec1beb7bfeb49d487e811389a36e263.jpg/v1/fill/w_1279,h_847,al_c,q_90/729cbe_0ec1beb7bfeb49d487e811389a36e263.webp',
+        thumbnail: 'https://static.wixstatic.com/media/729cbe_0ec1beb7bfeb49d487e811389a36e263.jpg/v1/fill/w_1279,h_847,al_c,q_90/729cbe_0ec1beb7bfeb49d487e811389a36e263.webp',
+      },
+      {
+        original: 'https://static.wixstatic.com/media/79dd75_f649d606549240fab7ee0e73e8b5bbc3.jpg/v1/fill/w_1144,h_762,al_c,q_85,usm_0.66_1.00_0.01/79dd75_f649d606549240fab7ee0e73e8b5bbc3.webp',
+        thumbnail: 'https://static.wixstatic.com/media/79dd75_f649d606549240fab7ee0e73e8b5bbc3.jpg/v1/fill/w_1144,h_762,al_c,q_85,usm_0.66_1.00_0.01/79dd75_f649d606549240fab7ee0e73e8b5bbc3.webp',
+      },
+      {
+        original: 'https://static.wixstatic.com/media/79dd75_fdc611b165414e88963c5b931522dd51.jpg/v1/fill/w_683,h_667,al_c,q_85/79dd75_fdc611b165414e88963c5b931522dd51.webp',
+        thumbnail: 'https://static.wixstatic.com/media/79dd75_fdc611b165414e88963c5b931522dd51.jpg/v1/fill/w_683,h_667,al_c,q_85/79dd75_fdc611b165414e88963c5b931522dd51.webp',
+      },
+      {
+        original: 'https://static.wixstatic.com/media/79dd75_7ad208842ac34c35a85aac87812a3f91.jpg/v1/fill/w_1144,h_762,al_c,q_85,usm_0.66_1.00_0.01/79dd75_7ad208842ac34c35a85aac87812a3f91.webp',
+        thumbnail: 'https://static.wixstatic.com/media/79dd75_7ad208842ac34c35a85aac87812a3f91.jpg/v1/fill/w_1144,h_762,al_c,q_85,usm_0.66_1.00_0.01/79dd75_7ad208842ac34c35a85aac87812a3f91.webp',
+      },
+      {
+        original: 'https://static.wixstatic.com/media/79dd75_51e59631a6574a6a86bb0b873c1382c6.jpg/v1/fill/w_1142,h_761,al_c,q_85,usm_0.66_1.00_0.01/79dd75_51e59631a6574a6a86bb0b873c1382c6.webp',
+        thumbnail: 'https://static.wixstatic.com/media/79dd75_51e59631a6574a6a86bb0b873c1382c6.jpg/v1/fill/w_1142,h_761,al_c,q_85,usm_0.66_1.00_0.01/79dd75_51e59631a6574a6a86bb0b873c1382c6.webp',
+      },
+      {
+        original: 'https://static.wixstatic.com/media/79dd75_0fa5ed5cbdcf408f9f42b4607bc617eb.jpg/v1/fill/w_1144,h_644,al_c,q_85,usm_0.66_1.00_0.01/79dd75_0fa5ed5cbdcf408f9f42b4607bc617eb.webp',
+        thumbnail: 'https://static.wixstatic.com/media/79dd75_0fa5ed5cbdcf408f9f42b4607bc617eb.jpg/v1/fill/w_1144,h_644,al_c,q_85,usm_0.66_1.00_0.01/79dd75_0fa5ed5cbdcf408f9f42b4607bc617eb.webp',
+      },
+      {
+        original: 'https://static.wixstatic.com/media/79dd75_734f1640eb074f91916d98144da20aba.jpg/v1/fill/w_1144,h_622,al_c,q_85,usm_0.66_1.00_0.01/79dd75_734f1640eb074f91916d98144da20aba.webp',
+        thumbnail: 'https://static.wixstatic.com/media/79dd75_734f1640eb074f91916d98144da20aba.jpg/v1/fill/w_1144,h_622,al_c,q_85,usm_0.66_1.00_0.01/79dd75_734f1640eb074f91916d98144da20aba.webp',
+      },
+      {
+        original: 'https://static.wixstatic.com/media/79dd75_da89b07de72746da84454c0ac8035853.jpg/v1/fill/w_1024,h_683,al_c,q_85/79dd75_da89b07de72746da84454c0ac8035853.webp',
+        thumbnail: 'https://static.wixstatic.com/media/79dd75_da89b07de72746da84454c0ac8035853.jpg/v1/fill/w_1024,h_683,al_c,q_85/79dd75_da89b07de72746da84454c0ac8035853.webp',
+      },
+      {
+        original: 'https://static.wixstatic.com/media/729cbe_71314fd457204940b64f635a82889750.jpg/v1/fill/w_504,h_334,al_c,q_80,usm_0.66_1.00_0.01/729cbe_71314fd457204940b64f635a82889750.webp',
+        thumbnail: 'https://static.wixstatic.com/media/729cbe_71314fd457204940b64f635a82889750.jpg/v1/fill/w_504,h_334,al_c,q_80,usm_0.66_1.00_0.01/729cbe_71314fd457204940b64f635a82889750.webp',
+      },
+      {
+        original: 'https://static.wixstatic.com/media/79dd75_dde10803db5c486e929b16a4e4153603.jpg/v1/fill/w_482,h_725,al_c,lg_1,q_80/79dd75_dde10803db5c486e929b16a4e4153603.webp',
+        thumbnail: 'https://static.wixstatic.com/media/79dd75_dde10803db5c486e929b16a4e4153603.jpg/v1/fill/w_482,h_725,al_c,lg_1,q_80/79dd75_dde10803db5c486e929b16a4e4153603.webp',
+      },
+      {
+        original: 'https://sun6-13.userapi.com/zeIqXzDiuGjDJWtM7YT3sgWI8H5EqP06lr0g0Q/aGk2HHuRoCs.jpg',
+        thumbnail: 'https://sun6-13.userapi.com/zeIqXzDiuGjDJWtM7YT3sgWI8H5EqP06lr0g0Q/aGk2HHuRoCs.jpg',
+      },
+      {
+        original: 'https://sun6-14.userapi.com/cWp_67iSASJaioiJxizzJtuETUWkpkDBsKkitw/gDFQu9loFWw.jpg',
+        thumbnail: 'https://sun6-14.userapi.com/cWp_67iSASJaioiJxizzJtuETUWkpkDBsKkitw/gDFQu9loFWw.jpg',
+      },
+      {
+        original: 'https://sun6-16.userapi.com/299M1ZUrc51-4PUGo_3bJtERASDG6xhN3d3_5Q/zA8kLa4Eses.jpg',
+        thumbnail: 'https://sun6-16.userapi.com/299M1ZUrc51-4PUGo_3bJtERASDG6xhN3d3_5Q/zA8kLa4Eses.jpg',
+      },
+      {
+        original: 'https://sun6-19.userapi.com/1RzgURYNUtv03FZFZHn_Rfhsih3WqIZ4mAyqVg/BpWNVDJIhTE.jpg',
+        thumbnail: 'https://sun6-19.userapi.com/1RzgURYNUtv03FZFZHn_Rfhsih3WqIZ4mAyqVg/BpWNVDJIhTE.jpg',
+      },
+      {
+        original: 'https://sun6-16.userapi.com/43Y4ZpnSzWr4lULuqdba-qY_4QMMIzEb8BD6NA/SfN1o7VpB1o.jpg',
+        thumbnail: 'https://sun6-16.userapi.com/43Y4ZpnSzWr4lULuqdba-qY_4QMMIzEb8BD6NA/SfN1o7VpB1o.jpg',
+      },
+      {
+        original: 'https://sun6-16.userapi.com/q6tcAxYqrHqtISFQTYZ_ms2QRzHZFBA6b3qUCg/WJMPLh8NGvc.jpg',
+        thumbnail: 'https://sun6-16.userapi.com/q6tcAxYqrHqtISFQTYZ_ms2QRzHZFBA6b3qUCg/WJMPLh8NGvc.jpg',
+      },
+      {
+        original: 'https://sun6-14.userapi.com/2WfjKx8HWkhd-DEyhQuyxbPguG6VZ6y0nmmY3Q/UV98PsRWAGc.jpg',
+        thumbnail: 'https://sun6-14.userapi.com/2WfjKx8HWkhd-DEyhQuyxbPguG6VZ6y0nmmY3Q/UV98PsRWAGc.jpg',
+      },
+    ];
+    return (
+      <Fragment>
+        <NotificationContainer/>
+        <section id="who-are-we" className="who-are-we page">
+          <div className="container wow fadeInUp">
+            <div className="row">
+              <div className="col-sm-5 col-md-6">
+                {/*<h1>IT Racing</h1>*/}
+              </div>
+              <div className="col-sm-7 col-md-6">
+                <p>Це - відкритий любительський чемпіонат з картингу серед працівників у сфері ІТ.</p>
+                <p>
+                  Тут місце для тих хто любить драйв, швидкість і жагу перемог.
+                  Саме тут ти можеш тиснути на газ максимально і не боятися йти на обгін.
+                </p>
+                <p>Сезон чемпіонату складається з 10ти гонок протягом не зимнього періоду.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="services" className="services page">
+          <div className="container wow fadeInUp">
+            <div className="row">
+              <div className="col-12 main-heading text-center">
+                <h1>Формат гонки</h1>
+              </div>
+              <div className="service clearfix">
+                <div className='row'>
+                  <div className="col-sm-4 col-md-5">
+                    <span className="service-number">1</span>
+                  </div>
+                  <div className="col-sm-8 col-md-7">
+                    <h2>Кваліфікація</h2>
+                    <p>Тривалість 10 хв. У заїзді їдуть 9-10 чоловік. З усіх кругів, які проїдуть "пілоти" береться найкраще.
+                       В наступний етап змагань проходять ТОП-30 найкращих, які показали найкращі результати одного швидкого кола.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="service clearfix">
+                <div className='row'>
+                  <div className="col-sm-4 col-md-5">
+                    <span className="service-number">2</span>
+                  </div>
+                  <div className="col-sm-8 col-md-7">
+                    <h2>Півфінал</h2>
+                    <p>До цієї гонки потрапляє 30 пілотів згідно з кваліфікаційним результатом. Кількість гонок півфіналу - 3.
+                       Стартова решітка гонки формується за місцем пілота в кваліфікації. Перший заїзд місця 1,4,7,10,13,16,19,22,25,28.
+                       Другий і третій заїзди формуються за такою ж схемою. Тривалість гонки - 12 кругів (10 хв).</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="service clearfix">
+                <div className='row'>
+                  <div className="col-sm-4 col-md-5">
+                    <span className="service-number">3</span>
+                  </div>
+                  <div className="col-sm-8 col-md-7">
+                    <h2>Фінал</h2>
+                    <p>Кількість пілотів - 10. Формується з пілотів, які зайняли 3 призових місця в півфіналах.
+                       10й пілот фіналу той, хто приїхав 4м у півфіналі і показав найкращий час кола серед інших 4х місць.
+                       Стартова решітка фіналу формується так:
+                       Перше місце на старті має той пілот, який виграв півфінал і показав найкраще коло серед переможців
+                       інших півфіналів. Всі інші місця формуються за такою ж схемою. Всі фіналісти доважуються до ваги 85 кг.
+                       Тривалість гонки - 15 кругів (12 хв).</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        <section id="cta" className="cta page">
+          <div className="container wow fadeInUp">
+            <div className="row">
+              <div className="col-sm-6">
+                <h1>Цікаво?</h1>
+              </div>
+              <div className="col-sm-6">
+                <button onClick={() => this.handleClick('/users/sign_up')} className="btn btn-block custom-button">Стати гонщиком</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="services page">
+          <div className="container wow fadeInUp">
+            <div className="col-12 main-heading text-center">
+              <h1>Галерея</h1>
+            </div>
+            <hr/>
+            <div className='text-center'>
+              <YouTube videoId='TJsbiukOytg' />
+            </div>
+            <hr/>
+            <div className='gallery'>
+              <ImageGallery items={images} autoPlay showThumbnails={false}/>
+            </div>
+          </div>
+        </section>
+      </Fragment>
+    );
+  }
+}
