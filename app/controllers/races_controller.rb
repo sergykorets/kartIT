@@ -25,7 +25,7 @@ class RacesController < ApplicationController
               photos: race.photos.map {|p| p.picture.present? ? p.picture : p.picture_url},
               standings: race.race_standings.order(:place).map do |s|
                 { place: s.place,
-                  name: s.user&.full_name || s.name,
+                  name: s.user&.name || s.name,
                   company: s.user&.company || s.company,
                   specialization: s.user&.specialization || s.specialization,
                   points: s.points(race.season, s.place)
