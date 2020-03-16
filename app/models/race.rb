@@ -9,6 +9,8 @@ class Race < ApplicationRecord
                        :twelve, :twelve_r, :thirteen, :thirteen_r, :fourteen, :fourteen_r, :fifteen, :fifteen_r]
   enum weather: [:sunny, :cloudy, :rain]
 
+  scope :in_season, ->(season) {where(season: season)}
+
   def title
     "#{number} (#{season})"
   end

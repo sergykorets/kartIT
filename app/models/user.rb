@@ -65,6 +65,11 @@ class User < ApplicationRecord
     race_standings.joins(:race).where(races: {season: season}).each do |s|
       sum << s.points(season, s.place)
     end
-    sum.sum - sum.min
+    season_races = Race.in_season(season).count
+    if sum.size < season_races
+      sum.sum
+    else
+      sum.sum - sum.min
+    end
   end
 end
