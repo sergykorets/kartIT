@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200315222621) do
+ActiveRecord::Schema.define(version: 20200316162051) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 20200315222621) do
     t.integer "number"
     t.integer "season"
     t.datetime "date"
-    t.integer "configuration"
+    t.integer "track"
     t.integer "weather"
     t.decimal "best_lap"
     t.integer "best_lap_user_id"
@@ -47,7 +47,7 @@ ActiveRecord::Schema.define(version: 20200315222621) do
   create_table "users", id: :serial, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
-    t.string "name", null: false
+    t.string "first_name", null: false
     t.integer "role", default: 0, null: false
     t.string "last_name", null: false
     t.string "company", null: false

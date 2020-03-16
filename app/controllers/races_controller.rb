@@ -8,7 +8,7 @@ class RacesController < ApplicationController
         avatar: race.photos&.first&.picture.present? ? race.photos&.first&.picture : race.photos&.first&.picture_url,
         weather: race.weather,
         season: race.season,
-        configuration: race.configuration
+        configuration: race.track
       }
     end
   end
@@ -21,7 +21,7 @@ class RacesController < ApplicationController
               avatar: race.photos&.first&.picture,
               weather: race.weather,
               season: race.season,
-              configuration: race.configuration,
+              configuration: race.track,
               photos: race.photos.map {|p| p.picture.present? ? p.picture : p.picture_url},
               standings: race.race_standings.order(:place).map do |s|
                 { place: s.place,

@@ -56,8 +56,8 @@ class User < ApplicationRecord
     update_attribute(:deleted_at, Time.current)
   end
 
-  def full_name
-    "#{name} #{last_name}"
+  def name
+    "#{first_name} #{last_name}"
   end
 
   def points_in_season(season)
