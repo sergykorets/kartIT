@@ -9,4 +9,7 @@ class Race < ApplicationRecord
                        :twelve, :twelve_r, :thirteen, :thirteen_r, :fourteen, :fourteen_r, :fifteen, :fifteen_r]
   enum weather: [:sunny, :cloudy, :rain]
 
+  def title
+    "#{number} (#{season})"
+  end
 end
