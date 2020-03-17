@@ -2,7 +2,7 @@ class Race < ApplicationRecord
   has_many :race_standings
   has_many :photos
   has_many :users, through: :race_standings
-  belongs_to :best_lap_user, class_name: 'User', foreign_key: :best_lap_user_id
+  belongs_to :best_lap_user, class_name: 'User', foreign_key: :best_lap_user_id, optional: true
 
   enum season: ['2019', '2020']
   enum track: [:one, :one_r, :two, :two_r, :tree, :tree_r, :four, :four_r, :five, :five_r, :six, :six_r,
@@ -11,6 +11,8 @@ class Race < ApplicationRecord
   enum weather: [:sunny, :cloudy, :rain]
 
   scope :in_season, ->(season) {where(season: season)}
+  scope :past, -> {where("date < ?", Date.today)}
+  scope :next_races, -> {where("date >= ?", Date.today)}
 
   def title
     "#{number} (#{season})"

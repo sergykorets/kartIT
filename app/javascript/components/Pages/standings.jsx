@@ -27,7 +27,7 @@ export default class Standings extends React.Component {
                 <table className='dark' style={{marginTop: 20 + 'px'}}>
                   <thead>
                   <tr>
-                    <th><h1>Місце</h1></th>
+                    <th><h1>#</h1></th>
                     <th><h1>Ім'я</h1></th>
                     <th><h1>Компанія</h1></th>
                     <th><h1>Спеціалізація</h1></th>

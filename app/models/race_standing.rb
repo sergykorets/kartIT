@@ -2,6 +2,8 @@ class RaceStanding < ApplicationRecord
   belongs_to :race
   belongs_to :user, optional: true
 
+  validates_uniqueness_of :user_id, scope: :race_id
+
   def points(season, place)
     table = {
         1 => [30,50],

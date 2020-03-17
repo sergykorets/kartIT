@@ -895,3 +895,6 @@ table tr td:first-of-type {
 .gallery .image-gallery-image {
     height: 30rem;
 }
+.notification-container {
+    width: 600px;
+}

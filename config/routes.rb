@@ -5,7 +5,12 @@ Rails.application.routes.draw do
 
   devise_for :users, :controllers => { registrations: 'registrations',
                                        omniauth_callbacks: 'omniauth_callbacks' }
-  resources :races, only: [:index, :show]
+  resources :races, only: [:index, :show] do
+    collection do
+      post :check_in
+      get :next_race
+    end
+  end
 
   get 'pages', to: 'pages#index'
   get 'standings', to: 'pages#standings'

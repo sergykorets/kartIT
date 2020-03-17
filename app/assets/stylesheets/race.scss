@@ -80,7 +80,10 @@
   background-color: #1F2739;
 }
 
-.dark td:first-child { color: #FB667A; }
+.dark td:first-child {
+  color: #FB667A;
+  width: 2rem;
+}
 
 .dark tr:hover {
   background-color: #464A52;
@@ -101,4 +104,7 @@
   transition-duration: 0.4s;
   transition-property: all;
   transition-timing-function: line;
+}
+section {
+  min-height: 100%;
 }

@@ -19,7 +19,26 @@ export default class Home extends React.Component {
 
   handleClick = (url) => {
     window.location = url;
-  }
+  };
+
+  handleCheckIn = () => {
+    if (this.props.logged) {
+      if (window.confirm("Зареєструватися на гонку?")) {
+        $.ajax({
+          url: '/races/check_in.json',
+          type: 'POST'
+        }).then((resp) => {
+          if (resp.success) {
+            NotificationManager.success('Ви успішно записалися на гонку');
+          } else {
+            NotificationManager.error('Ви вже зареєстровані в гонці', 'Неможливо зробити дію');
+          }
+        });
+      }
+    } else {
+      NotificationManager.error('Спочатку треба увійти або зареєструватися на сайті', 'Неможливо зробити дію');
+    }
+  };
 
   render() {
     const images = [
@@ -109,9 +128,14 @@ export default class Home extends React.Component {
               <div className="col-sm-5 col-md-6">
                 { this.props.next_race_date &&
                   <div className='next-race-banner'>
-                    <h2>Наступна гонка</h2>
-                    <h5>КЦ "Жажда Скорости"</h5>
-                    <h3><b>{this.props.next_race_date}</b></h3>
+                    <div className='left'>
+                      <h2><a href='/races/next_race'>Наступна гонка</a></h2>
+                      <h5>КЦ "Жажда Скорости"</h5>
+                      <h3><b>{this.props.next_race_date}</b></h3>
+                    </div>
+                    <div className='right'>
+                      <button onClick={() => this.handleCheckIn()} className="btn btn-block custom-button">Check-In</button>
+                    </div>
                   </div>}
               </div>
               <div className="col-sm-7 col-md-6">
