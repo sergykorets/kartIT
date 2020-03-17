@@ -107,11 +107,12 @@ export default class Home extends React.Component {
           <div className="container wow fadeInUp">
             <div className="row">
               <div className="col-sm-5 col-md-6">
-                <div className='next-race-banner'>
-                  <h2>Наступна гонка</h2>
-                  <h5>КЦ "Жажда Скорости"</h5>
-                  <h3><b>{this.props.next_race_date}</b></h3>
-                </div>
+                { this.props.next_race_date &&
+                  <div className='next-race-banner'>
+                    <h2>Наступна гонка</h2>
+                    <h5>КЦ "Жажда Скорости"</h5>
+                    <h3><b>{this.props.next_race_date}</b></h3>
+                  </div>}
               </div>
               <div className="col-sm-7 col-md-6">
                 <p>Це - відкритий любительський чемпіонат з картингу серед працівників у сфері ІТ.</p>

@@ -1,7 +1,7 @@
 class PagesController < ApplicationController
 
   def index
-    @next_race_date = Banner.first.next_race_date.strftime('%d.%m.%Y %H:%M')
+    @next_race_date = Banner.first&.next_race_date&.strftime('%d.%m.%Y %H:%M')
   end
 
   def standings
