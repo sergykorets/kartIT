@@ -9,12 +9,13 @@ class User < ApplicationRecord
 
   has_many :race_standings
   has_many :races, through: :race_standings
+  has_many :best_lap_races, class_name: 'Race', foreign_key: :best_lap_user_id
 
   enum role: [:racer, :admin, :manager]
 
   scope :in_season, ->(season) {joins(:races).where(races: {season: season}).uniq}
 
-  validates_presence_of :name, :last_name, :company, :specialization
+  validates_presence_of :first_name, :last_name, :company, :specialization
 
   def self.find_for_oauth(auth)
     user = User.where(uid: auth.uid, provider: auth.provider).first
@@ -66,10 +67,11 @@ class User < ApplicationRecord
       sum << s.points(season, s.place)
     end
     season_races = Race.in_season(season).count
+    best_lap_points = best_lap_races.in_season(season).count
     if sum.size < season_races
-      sum.sum
+      sum.sum + best_lap_points
     else
-      sum.sum - sum.min
+      sum.sum + best_lap_points - sum.min
     end
   end
 end
