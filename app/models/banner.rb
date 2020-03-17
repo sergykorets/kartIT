@@ -1,0 +1,1 @@
+class Banner < ApplicationRecord; end

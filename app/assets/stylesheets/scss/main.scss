@@ -29,4 +29,13 @@
 @import 'layout/responsive/desktop.scss';
 
 
+.next-race-banner {
+  background: #3d296c;
+  padding: 20px;
+  border-radius: 5px;
+  margin-top: 5px;
+  h3 {
+    font-weight: 600;
+  }
+}
 

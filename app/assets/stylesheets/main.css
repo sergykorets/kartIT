@@ -892,8 +892,6 @@ table tr td:first-of-type {
 #banner {
     background-color: #090909;
 }
-.gallery {
-    .image-gallery-image {
-        height: 30rem;
-    }
+.gallery .image-gallery-image {
+    height: 30rem;
 }

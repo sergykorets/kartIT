@@ -5,24 +5,10 @@
   .container {
     max-width: 100%;
   }
-  body {
-    font-size: 25px;
+  .dark {
+    font-size: 1.5rem;
   }
-  .btn {
-    font-size: inherit;
-  }
-  .inside {
-    margin-top: 200px;
-  }
-  .input-submit {
-    button {
-      font-size: 25px;
-    }
-  }
-  .notification-container {
-    margin-top: 100px;
-  }
-  .dark i {
-    margin-right: 1rem;
+  .race h5 {
+    font-size: 1.5rem;
   }
 }

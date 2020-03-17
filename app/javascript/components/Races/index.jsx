@@ -47,6 +47,9 @@ export default class Races extends React.Component {
                           <h2 className='race-heading'>{race.number} етап сезону {race.season} "IT Racing"</h2>
                           <h5 className='race-weather'>Погода: {translations[race.weather]}</h5>
                           <h5 className='race-track'>Конфігурація: {track_translations[race.configuration]}</h5>
+                          <h5 className='race-best-lap'>
+                            Швидке коло: {race.best_lap_user.name} ({race.best_lap_user.company}/{race.best_lap_user.specialization}) - {race.best_lap_user.time} сек
+                          </h5>
                         </div>
                       </div>
                     )
