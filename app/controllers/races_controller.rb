@@ -60,6 +60,7 @@ class RacesController < ApplicationController
 
   def next_race
     race = Race.next_races.first
+    @admin = current_user&.admin?
     @registered_users = RaceStanding.joins(:user).where(race_standings: {race: race}).order("race_standings.created_at").map do |s|
       { name: s.user.name,
         company: s.user.company,

@@ -1,7 +1,6 @@
 import React, {Fragment} from 'react';
 import { Modal, ModalHeader, FormGroup, Label, Input, ButtonToggle } from 'reactstrap';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
-import ImageGallery from "react-image-gallery";
 
 export default class NextRace extends React.Component {
   constructor(props) {
@@ -20,6 +19,11 @@ export default class NextRace extends React.Component {
           <div className="container wow fadeInUp">
             <div className="col-12 main-heading text-center mt-5">
               <h1>Зареєстровані учасники</h1>
+            </div>
+            <div className='row'>
+              <div className='col-2'>
+                <button onClick={() => this.handleCheckIn()} className="btn btn-block custom-button">Check-In</button>
+              </div>
             </div>
             <div className="row">
               <div className="col-12">

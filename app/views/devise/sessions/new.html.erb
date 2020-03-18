@@ -11,6 +11,7 @@
           <div class="input-group">
             <%= f.password_field :password, autocomplete: "off", class: 'input--style-3', placeholder: 'Пароль' %>
           </div>
+          <%= link_to 'Забули пароль?', new_user_password_path %>
           <div class="p-t-10">
             <%= f.submit "Увійти", class: "btn btn--pill btn--green" %>
           </div>
