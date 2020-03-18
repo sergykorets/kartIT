@@ -1,5 +1,6 @@
 class RacesController < ApplicationController
   before_action :authenticate_user!, only: :check_in
+  before_action :set_next_race, only: [:check_in, :next_race, :group_qualify, :grouped_qualify]
 
   def index
     @races = Race.past.where(season: '2019').map do |race|
@@ -49,8 +50,7 @@ class RacesController < ApplicationController
   end
 
   def check_in
-    race = Race.next_races.first
-    check_in = RaceStanding.new(race: race, user: current_user)
+    check_in = RaceStanding.new(race: @next_race, user: current_user)
     if check_in.save
       render json: {success: true}
     else
@@ -59,9 +59,9 @@ class RacesController < ApplicationController
   end
 
   def next_race
-    race = Race.next_races.first
     @admin = current_user&.admin?
-    @registered_users = RaceStanding.joins(:user).where(race_standings: {race: race}).order("race_standings.created_at").map do |s|
+    @grouped = @next_race.qualify_grouped
+    @registered_users = RaceStanding.joins(:user).where(race_standings: {race: @next_race}).order("race_standings.created_at").map do |s|
       { name: s.user.name,
         company: s.user.company,
         specialization: s.user.specialization,
@@ -69,5 +69,34 @@ class RacesController < ApplicationController
         created_at: s.created_at.strftime('%d.%m.%Y %H:%M')
       }
     end
+  end
+
+  def grouped_qualify
+    @users = @next_race.race_standings.map do |s|
+      { name: s.user.name,
+        company: s.user.company,
+        specialization: s.user.specialization,
+        group: s.qualify_group
+      }
+    end.group_by { |s| s[:group] }.values
+  end
+
+  def group_qualify
+    unless @next_race.qualify_grouped
+      group = params[:group].to_i
+      randomized_order = @next_race.race_standings.order("RANDOM()")
+      randomized_order.each_with_index do |s, i|
+        qualify_group = (i / group).floor + 1
+        s.update_column(:qualify_group, qualify_group)
+      end
+      @next_race.update_column(:qualify_grouped, true)
+    end
+    redirect_to grouped_qualify_races_path
+  end
+
+  private
+
+  def set_next_race
+    @next_race = Race.next_races.first
   end
 end

@@ -4,6 +4,7 @@ import Races from '../components/Races';
 import Race from '../components/Races/race';
 import Standings from '../components/Pages/standings';
 import NextRace from '../components/Races/next_race';
+import GroupedQualify from '../components/Races/grouped_qualify';
 
 // This is how react_on_rails can see the HelloWorld in the browser.
 ReactOnRails.register({
@@ -11,5 +12,6 @@ ReactOnRails.register({
   Races,
   Race,
   Standings,
-  NextRace
+  NextRace,
+  GroupedQualify
 });

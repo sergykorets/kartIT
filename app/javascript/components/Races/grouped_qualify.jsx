@@ -2,13 +2,11 @@ import React, {Fragment} from 'react';
 import { Modal, ModalHeader, FormGroup, Label, Input, ButtonToggle } from 'reactstrap';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 
-export default class NextRace extends React.Component {
+export default class GroupedQualify extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      qualifyModal: false,
-      qualifyCount: 10
     };
   }
 
@@ -21,26 +19,10 @@ export default class NextRace extends React.Component {
 
   handleChange = (field, value) => {
     this.setState({
-      ...this.state,
+        ...this.state,
         [field]: value
       }
     )
-  }
-
-  submitQualify = () => {
-    $.ajax({
-      url: '/races/group_qualify.json',
-      type: 'POST',
-      data: {
-        group: this.state.qualifyCount
-      }
-    }).then((resp) => {
-      if (resp.success) {
-        NotificationManager.success('Групи сформовано');
-      } else {
-        NotificationManager.error('Групи вже сформовано','Неможливо зробити дію');
-      }
-    });
   }
 
 
@@ -51,23 +33,8 @@ export default class NextRace extends React.Component {
         <section id="services" className="services page">
           <div className="container wow fadeInUp">
             <div className="col-12 main-heading text-center mt-5">
-              <h1>Зареєстровані учасники</h1>
+              <h1>Групи кваліфікації</h1>
             </div>
-            { this.props.admin &&
-              <Fragment>
-              <div className='row'>
-                <div className='col-2'>
-                  <button onClick={() => this.handleModal('qualifyModal')} className="btn btn-warning">Групування</button>
-                </div>
-              </div>
-              <hr/>
-              </Fragment>}
-            { this.props.grouped &&
-              <div className='row'>
-                <div className='col-sm-6'>
-                    <a href='/races/grouped_qualify' className="btn btn-warning">Групи кваліфікації</a>
-                </div>
-              </div>}
             <div className="row">
               <div className="col-12">
                 <table className='dark' style={{marginTop: 20 + 'px'}}>
@@ -77,21 +44,27 @@ export default class NextRace extends React.Component {
                     <th><h1>Ім'я</h1></th>
                     <th><h1>Компанія</h1></th>
                     <th><h1>Спеціалізація</h1></th>
-                    <th><h1>Новачок</h1></th>
-                    <th><h1>Дата реєстрації</h1></th>
                   </tr>
                   </thead>
                   <tbody>
-                  { this.props.users.map((u, index) => {
+                  { this.props.users.map((group, index) => {
                     return (
-                      <tr key={index}>
-                        <td>{index+1}</td>
-                        <td>{u.name}</td>
-                        <td>{u.company}</td>
-                        <td>{u.specialization}</td>
-                        <td style={{color: u.novice ? 'green' : 'red'}}>{u.novice ? 'Так' : 'Ні'}</td>
-                        <td>{u.created_at}</td>
-                      </tr>
+                      <Fragment>
+                        <tr>
+                          <td colspan='4' className='text-center'>Група {index+1}</td>
+                        </tr>
+                        <Fragment>
+                          { group.map((u, i) => {
+                            return (
+                              <tr key={i}>
+                                <td>{i+1}</td>
+                                <td>{u.name}</td>
+                                <td>{u.company}</td>
+                                <td>{u.specialization}</td>
+                              </tr>
+                            )})}
+                        </Fragment>
+                      </Fragment>
                     )
                   })}
                   </tbody>

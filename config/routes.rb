@@ -9,6 +9,8 @@ Rails.application.routes.draw do
     collection do
       post :check_in
       get :next_race
+      get :grouped_qualify
+      post :group_qualify
     end
   end
 
