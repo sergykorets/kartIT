@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react';
 import { Modal, ModalHeader, FormGroup, Label, Input, ButtonToggle } from 'reactstrap';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
-import ImageGallery from "react-image-gallery";
+import Masonry from 'react-masonry-css';
 
 export default class UserInfo extends React.Component {
   constructor(props) {
@@ -44,11 +44,13 @@ export default class UserInfo extends React.Component {
                     </div>
                   </div>
                   <div className="rela-block content">
-                    {user.races.map((r,i) => {return(
-                      <div onClick={() => this.handleClick(`/races/${r.id}`)} title={`${r.number} етап сезону ${r.season}`} key={i} style={{backgroundImage: `url(${r.picture})`}} className="rela-inline image">
-                        <span className='race-title'>{`${r.number} етап сезону ${r.season}`}</span>
-                      </div>
-                    )})}
+                    <Masonry breakpointCols={{default: 4, 1199: 3, 991: 2, 750: 1}}>
+                      {user.races.map((r,i) => {return(
+                        <div onClick={() => this.handleClick(`/races/${r.id}`)} title={`${r.number} етап сезону ${r.season}`} key={i} style={{backgroundImage: `url(${r.picture})`}} className="rela-inline image">
+                          <span className='race-title'>{`${r.number} етап сезону ${r.season}`}</span>
+                        </div>
+                      )})}
+                    </Masonry>
                   </div>
                 </div>
               </div>

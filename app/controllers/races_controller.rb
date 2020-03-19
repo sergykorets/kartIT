@@ -3,7 +3,7 @@ class RacesController < ApplicationController
   before_action :set_next_race, only: [:check_in, :next_race, :group_qualify, :grouped_qualify]
 
   def index
-    @races = Race.past.where(season: '2019').map do |race|
+    @races = Race.past.order('date DESC').where(season: '2019').map do |race|
       { id: race.id,
         number: race.number,
         date: race.date.strftime('%d.%m.%Y %H:%M'),
@@ -12,9 +12,9 @@ class RacesController < ApplicationController
         season: race.season,
         configuration: race.track,
         best_lap_user: {
-          name: race.best_lap_user.name,
-          company: race.best_lap_user.company,
-          specialization: race.best_lap_user.specialization,
+          name: race.best_lap_user&.name,
+          company: race.best_lap_user&.company,
+          specialization: race.best_lap_user&.specialization,
           time: race.best_lap
         }
       }
