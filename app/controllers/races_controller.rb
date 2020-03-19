@@ -41,6 +41,7 @@ class RacesController < ApplicationController
       standings: race.race_standings.order(:place).map do |s|
         { place: s.place,
           name: s.user&.name || s.name,
+          user_id: s.user&.id,
           company: s.user&.company || s.company,
           specialization: s.user&.specialization || s.specialization,
           points: s.points(race.season, s.place)
@@ -62,7 +63,8 @@ class RacesController < ApplicationController
     @admin = current_user&.admin?
     @grouped = @next_race.qualify_grouped
     @registered_users = RaceStanding.joins(:user).where(race_standings: {race: @next_race}).order("race_standings.created_at").map do |s|
-      { name: s.user.name,
+      { id: s.user.id,
+        name: s.user.name,
         company: s.user.company,
         specialization: s.user.specialization,
         novice: s.user.novice,

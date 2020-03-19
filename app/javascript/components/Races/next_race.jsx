@@ -86,7 +86,7 @@ export default class NextRace extends React.Component {
                     return (
                       <tr key={index}>
                         <td>{index+1}</td>
-                        <td>{u.name}</td>
+                        <td><a href={`/racer/${u.id}`}>{u.name}</a></td>
                         <td>{u.company}</td>
                         <td>{u.specialization}</td>
                         <td style={{color: u.novice ? 'green' : 'red'}}>{u.novice ? 'Так' : 'Ні'}</td>

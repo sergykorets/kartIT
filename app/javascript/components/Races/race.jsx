@@ -13,7 +13,6 @@ export default class Race extends React.Component {
   }
 
   render() {
-    console.log(this.props)
     const images = this.props.race.photos.map((photo) => {return ({ original: photo, thumbnail: photo})});
     return (
       <Fragment>
@@ -40,7 +39,7 @@ export default class Race extends React.Component {
                     return (
                       <tr key={index}>
                         <td>{s.place}</td>
-                        <td>{s.name}</td>
+                        <td><a href={`/racer/${s.user_id}`}>{s.name}</a></td>
                         <td>{s.company}</td>
                         <td>{s.specialization}</td>
                         <td>{s.points}</td>

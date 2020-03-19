@@ -13,7 +13,6 @@ export default class Standings extends React.Component {
   }
 
   render() {
-    console.log(this.props)
     return (
       <Fragment>
         <NotificationContainer/>
@@ -39,7 +38,7 @@ export default class Standings extends React.Component {
                     return (
                       <tr key={index}>
                         <td>{index+1}</td>
-                        <td>{s.racer}</td>
+                        <td><a href={`/racer/${s.id}`}>{s.racer}</a></td>
                         <td>{s.company}</td>
                         <td>{s.specialization}</td>
                         <td>{s.points}</td>

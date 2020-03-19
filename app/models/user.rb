@@ -74,4 +74,20 @@ class User < ApplicationRecord
       sum.sum + best_lap_points - sum.min
     end
   end
+
+  def places(place, season = 'all')
+    if season == 'all'
+      race_standings.where("race_standings.place <= ?", place).count
+    else
+      race_standings.joins(:race).where(races: {season: season}).where("race_standings.place <= ?", place).count
+    end
+  end
+
+  def best_laps(season = 'all')
+    if season == 'all'
+      best_lap_races.count
+    else
+      best_lap_races.where(races: {season: season}).count
+    end
+  end
 end

@@ -7,7 +7,8 @@ class PagesController < ApplicationController
 
   def standings
     @standings = User.in_season('2019').map do |user|
-      { racer: user.name,
+      { id: user.id,
+        racer: user.name,
         company: user.company,
         specialization: user.specialization,
         points: user.points_in_season('2019')

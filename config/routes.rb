@@ -3,8 +3,7 @@ Rails.application.routes.draw do
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
-  devise_for :users, :controllers => { registrations: 'registrations',
-                                       omniauth_callbacks: 'omniauth_callbacks' }
+  devise_for :users, :controllers => { registrations: 'registrations', omniauth_callbacks: 'omniauth_callbacks' }
   resources :races, only: [:index, :show] do
     collection do
       post :check_in
@@ -14,6 +13,7 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'racer/:id', to: 'users#info'
   get 'pages', to: 'pages#index'
   get 'standings', to: 'pages#standings'
   get 'regulations', to: 'pages#regulations'
