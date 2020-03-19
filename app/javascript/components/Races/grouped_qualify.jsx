@@ -15,7 +15,7 @@ export default class GroupedQualify extends React.Component {
       ...this.state,
       [modal]: !this.state[modal]
     })
-  }
+  };
 
   handleChange = (field, value) => {
     this.setState({
@@ -23,7 +23,7 @@ export default class GroupedQualify extends React.Component {
         [field]: value
       }
     )
-  }
+  };
 
 
   render() {

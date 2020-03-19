@@ -9,7 +9,8 @@ export default class Standings extends React.Component {
     super(props);
 
     this.state = {
-
+      standings: this.props.standings,
+      season: '2019'
     };
   }
 
@@ -20,14 +21,38 @@ export default class Standings extends React.Component {
     }
   }
 
+  handleChange = (field, value) => {
+    $.ajax({
+      url: '/standings.json',
+      type: 'GET',
+      data: {
+        season: value
+      }
+    }).then((resp) => {
+      this.setState({
+          ...this.state,
+          standings: resp.standings,
+          [field]: value
+        }
+      )
+    });
+  };
+
   render() {
     return (
       <Fragment>
         <NotificationContainer/>
         <section id="services" className="services page">
           <div className="container wow fadeInUp">
-            <div className="col-12 main-heading text-center mt-5">
-              <h1>Сезон 2019</h1>
+            <div className="col-sm-12 col-md-6 col-lg-4 mt-5">
+              <FormGroup>
+                <Label for="season">Сезон</Label>
+                <Input type="select" name="season" id="season" defaultValue={this.state.season} onChange={(e) => this.handleChange('season', e.target.value)}>
+                  { ['2019', '2020'].map((season, index) => {
+                    return <option key={index} value={season}>{season}</option>
+                  })}
+                </Input>
+              </FormGroup>
             </div>
             <div className="row">
               <div className="col-12">
@@ -42,7 +67,7 @@ export default class Standings extends React.Component {
                   </tr>
                   </thead>
                   <tbody>
-                  { this.props.standings.map((s, index) => {
+                  { this.state.standings.map((s, index) => {
                     return (
                       <tr key={index}>
                         <td>{index+1}</td>

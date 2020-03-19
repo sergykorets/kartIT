@@ -4,7 +4,7 @@ class RacesController < ApplicationController
 
   def index
     @admin = current_user&.admin?
-    @races = Race.past.order('date DESC').where(season: '2019').map do |race|
+    @races = Race.past.order('date DESC').where(season: params[:season] || '2019').map do |race|
       { id: race.id,
         number: race.number,
         date: race.date.strftime('%d.%m.%Y %H:%M'),
@@ -20,6 +20,10 @@ class RacesController < ApplicationController
         }
       }
     end
+    respond_to do |format|
+      format.html { render :index }
+      format.json {{races: @races, admin: @admin }}
+    end
   end
 
   def show
@@ -34,9 +38,9 @@ class RacesController < ApplicationController
       season: race.season,
       configuration: race.track,
       best_lap_user: {
-          name: race.best_lap_user.name,
-          company: race.best_lap_user.company,
-          specialization: race.best_lap_user.specialization,
+          name: race.best_lap_user&.name,
+          company: race.best_lap_user&.company,
+          specialization: race.best_lap_user&.specialization,
           time: race.best_lap
       },
       photos: race.photos.map {|p| p.picture.present? ? p.picture : p.picture_url},

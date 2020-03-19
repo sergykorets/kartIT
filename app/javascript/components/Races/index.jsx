@@ -8,7 +8,8 @@ export default class Races extends React.Component {
     super(props);
 
     this.state = {
-
+      races: this.props.races,
+      season: '2019'
     };
   }
 
@@ -22,6 +23,23 @@ export default class Races extends React.Component {
   handleClick = (id) => {
     window.location = `/races/${id}`
   }
+
+  handleChange = (field, value) => {
+    $.ajax({
+      url: '/races.json',
+      type: 'GET',
+      data: {
+        season: value
+      }
+    }).then((resp) => {
+      this.setState({
+          ...this.state,
+          races: resp.races,
+          [field]: value
+        }
+      )
+    });
+  };
 
   render() {
     const translations = {
@@ -41,10 +59,20 @@ export default class Races extends React.Component {
         <NotificationContainer/>
         <section id="services" className="services page">
           <div className="container">
+            <div className="col-sm-12 col-md-6 col-lg-4 mt-5">
+              <FormGroup>
+                <Label for="season">Сезон</Label>
+                <Input type="select" name="season" id="season" defaultValue={this.state.season} onChange={(e) => this.handleChange('season', e.target.value)}>
+                  { ['2019', '2020'].map((season, index) => {
+                    return <option key={index} value={season}>{season}</option>
+                  })}
+                </Input>
+              </FormGroup>
+            </div>
             <div className="row">
               <div className="col-12">
                 <div className='races'>
-                  { this.props.races.map((race) => {
+                  { this.state.races.map((race) => {
                     return (
                       <div className='race' onClick={() => this.handleClick(race.id)}>
                         <div className='race-img'>

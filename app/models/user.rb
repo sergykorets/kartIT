@@ -66,12 +66,16 @@ class User < ApplicationRecord
     race_standings.joins(:race).where(races: {season: season}).each do |s|
       sum << s.points(season, s.place)
     end
-    season_races = Race.in_season(season).count
-    best_lap_points = best_lap_races.in_season(season).count
-    if sum.size < season_races
-      sum.sum + best_lap_points
+    if sum.compact.any?
+      season_races = Race.in_season(season).count
+      best_lap_points = best_lap_races.in_season(season).count
+      if (sum.size < season_races) || season_races == 1
+        sum.sum + best_lap_points
+      else
+        sum.sum + best_lap_points - sum.min
+      end
     else
-      sum.sum + best_lap_points - sum.min
+      0
     end
   end
 

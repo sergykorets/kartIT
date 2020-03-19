@@ -8,14 +8,18 @@ class PagesController < ApplicationController
 
   def standings
     @admin = current_user&.admin?
-    @standings = User.in_season('2019').map do |user|
+    @standings = User.in_season(params[:season] || '2019').map do |user|
       { id: user.id,
         racer: user.name,
         company: user.company,
         specialization: user.specialization,
-        points: user.points_in_season('2019')
+        points: user.points_in_season(params[:season] || '2019')
       }
     end.sort_by {|s| s[:points]}.reverse
+    respond_to do |format|
+      format.html { render :standings }
+      format.json {{standings: @standings, admin: @admin }}
+    end
   end
 
   def regulations
