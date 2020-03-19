@@ -90,4 +90,20 @@ class User < ApplicationRecord
       best_lap_races.where(races: {season: season}).count
     end
   end
+
+  def edge_place(place, season = 'all')
+    if season == 'all'
+      race_standings.pluck(:place).compact.public_send(place)
+    else
+      race_standings.joins(:race).where(races: {season: season}).pluck(:place).compact.public_send(place)
+    end
+  end
+
+  def races_count(season = 'all')
+    if season == 'all'
+      races.past.count
+    else
+      races.past.where(season: season).count
+    end
+  end
 end

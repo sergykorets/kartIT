@@ -361,6 +361,15 @@
 .best-laps::after {
   content: "Шв. кола";
 }
+.best-place::after {
+  content: "Мін. позиція";
+}
+.worst-place::after {
+  content: "Макс. позиція";
+}
+.races-count::after {
+  content: "Гонки";
+}
 .image {
   width: 240px;
   height: 200px;

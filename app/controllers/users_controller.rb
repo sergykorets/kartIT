@@ -12,6 +12,9 @@ class UsersController < ApplicationController
         finals: user.places(10),
         best_laps: user.best_laps,
         championships: user.championships,
+        best_place: user.edge_place('min'),
+        worst_place: user.edge_place('max'),
+        races_count: user.races_count,
         races: user.races.past.order('date DESC').map do |r|
           {
               id: r.id,
