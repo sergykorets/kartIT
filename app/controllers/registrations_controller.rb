@@ -1,6 +1,7 @@
 class RegistrationsController < Devise::RegistrationsController
 
   def edit
+    @admin = current_user&.admin?
     @info = {
         name: @user.name,
         company: @user.company,
