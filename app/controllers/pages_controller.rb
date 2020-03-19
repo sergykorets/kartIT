@@ -2,10 +2,12 @@ class PagesController < ApplicationController
 
   def index
     @next_race_date = Banner.first&.next_race_date&.strftime('%d.%m.%Y %H:%M')
+    @admin = current_user&.admin?
     @logged = current_user.present?
   end
 
   def standings
+    @admin = current_user&.admin?
     @standings = User.in_season('2019').map do |user|
       { id: user.id,
         racer: user.name,

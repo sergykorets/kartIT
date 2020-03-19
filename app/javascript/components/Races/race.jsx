@@ -1,5 +1,6 @@
 import React, {Fragment} from 'react';
 import { Modal, ModalHeader, FormGroup, Label, Input, ButtonToggle } from 'reactstrap';
+import ReactGA from 'react-ga';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import ImageGallery from "react-image-gallery";
 
@@ -10,6 +11,13 @@ export default class Race extends React.Component {
     this.state = {
 
     };
+  }
+
+  componentDidMount() {
+    if (!this.props.admin) {
+      ReactGA.initialize('UA-116820611-4');
+      ReactGA.ga('send', 'pageview', `/races/${this.props.race.number}(${this.props.race.season})`);
+    }
   }
 
   render() {

@@ -1,6 +1,7 @@
 import React, {Fragment} from 'react';
 import { Modal, ModalHeader, FormGroup, Label, Input, ButtonToggle } from 'reactstrap';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
+import ReactGA from 'react-ga';
 import Masonry from 'react-masonry-css';
 
 export default class UserInfo extends React.Component {
@@ -10,6 +11,13 @@ export default class UserInfo extends React.Component {
     this.state = {
 
     };
+  }
+
+  componentDidMount() {
+    if (!this.props.admin) {
+      ReactGA.initialize('UA-116820611-4');
+      ReactGA.ga('send', 'pageview', `/racer/${this.props.info.name}`);
+    }
   }
 
   handleClick = (url) => {

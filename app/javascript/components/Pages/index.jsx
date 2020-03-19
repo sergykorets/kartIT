@@ -1,5 +1,6 @@
 import React, {Fragment} from 'react';
 import { Modal, ModalHeader, FormGroup, Label, Input, ButtonToggle } from 'reactstrap';
+import ReactGA from 'react-ga';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import YouTube from 'react-youtube';
 import ImageGallery from 'react-image-gallery';
@@ -14,7 +15,10 @@ export default class Home extends React.Component {
   }
 
   componentDidMount() {
-
+    if (!this.props.admin) {
+      ReactGA.initialize('UA-116820611-4');
+      ReactGA.ga('send', 'pageview', '/');
+    }
   }
 
   handleClick = (url) => {

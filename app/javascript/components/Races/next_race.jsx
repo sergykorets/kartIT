@@ -1,5 +1,6 @@
 import React, {Fragment} from 'react';
 import { Modal, ModalHeader, FormGroup, Label, Input, ButtonToggle } from 'reactstrap';
+import ReactGA from 'react-ga';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 
 export default class NextRace extends React.Component {
@@ -10,6 +11,13 @@ export default class NextRace extends React.Component {
       qualifyModal: false,
       qualifyCount: 10
     };
+  }
+
+  componentDidMount() {
+    if (!this.props.admin) {
+      ReactGA.initialize('UA-116820611-4');
+      ReactGA.ga('send', 'pageview', '/races/next_race');
+    }
   }
 
   handleModal = (modal) => {

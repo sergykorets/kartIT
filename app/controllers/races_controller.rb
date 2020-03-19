@@ -3,6 +3,7 @@ class RacesController < ApplicationController
   before_action :set_next_race, only: [:check_in, :next_race, :group_qualify, :grouped_qualify]
 
   def index
+    @admin = current_user&.admin?
     @races = Race.past.order('date DESC').where(season: '2019').map do |race|
       { id: race.id,
         number: race.number,
@@ -22,6 +23,7 @@ class RacesController < ApplicationController
   end
 
   def show
+    @admin = current_user&.admin?
     race = Race.find(params[:id])
     @race = {
       id: race.id,
