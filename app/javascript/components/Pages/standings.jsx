@@ -10,7 +10,7 @@ export default class Standings extends React.Component {
 
     this.state = {
       standings: this.props.standings,
-      season: '2019'
+      season: '2020'
     };
   }
 

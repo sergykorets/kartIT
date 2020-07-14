@@ -9,7 +9,7 @@ export default class Races extends React.Component {
 
     this.state = {
       races: this.props.races,
-      season: '2019'
+      season: '2020'
     };
   }
 
