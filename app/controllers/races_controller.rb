@@ -4,7 +4,7 @@ class RacesController < ApplicationController
 
   def index
     @admin = current_user&.admin?
-    @races = Race.past.order('date DESC').where(season: params[:season] || '2019').map do |race|
+    @races = Race.past.order('date DESC').where(season: params[:season] || '2020').map do |race|
       { id: race.id,
         number: race.number,
         date: race.date.strftime('%d.%m.%Y %H:%M'),
