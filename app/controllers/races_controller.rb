@@ -50,7 +50,7 @@ class RacesController < ApplicationController
           user_id: s.user&.id,
           company: s.user&.company || s.company,
           specialization: s.user&.specialization || s.specialization,
-          points: s.points(race.season, s.place)
+          points: s.points(race.season, s.place) + (s.user_id == race.best_lap_user_id ? 1 : 0)
         }
       end
     }

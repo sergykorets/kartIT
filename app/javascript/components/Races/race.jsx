@@ -22,6 +22,18 @@ export default class Race extends React.Component {
 
   render() {
     const images = this.props.race.photos.map((photo) => {return ({ original: photo, thumbnail: photo})});
+    const translations = {
+      sunny: 'Сонячно',
+      cloudy: 'Хмарно',
+      rain: 'Дощ'
+    };
+    const track_translations = {
+      one: 1, one_r: '1 (реверс)', two: 2, two_r: '2 (реверс)', tree: 3, tree_r: '3 (реверс)', four: 4, four_r: '4 (реверс)',
+      five: 5, five_r: '5 (реверс)', six: 6, six_r: '6 (реверс)', seven: 7, seven_r: '7 (реверс)', eight: 8, eight_r: '8 (реверс)',
+      nine: 9, nine_r: '9 (реверс)', ten: 10, ten_r: '10 (реверс)', eleven: 11, eleven_r: '11 (реверс)',
+      twelve: 12, twelve_r: '12 (реверс)', thirteen: 13, thirteen_r: '13 (реверс)', fourteen: 14, fourteen_r: '14 (реверс)',
+      fifteen: 15, fifteen_r: '15 (реверс)'
+    };
     return (
       <Fragment>
         <NotificationContainer/>
@@ -29,6 +41,22 @@ export default class Race extends React.Component {
           <div className="container wow fadeInUp">
             <div className="col-12 main-heading text-center mt-5">
               <h1>{this.props.race.number} етап сезону {this.props.race.season} "IT Racing"</h1>
+            </div>
+            <div className='container'>
+              <div className='row'>
+                <div className='col-3'>
+                  <i className='fa fa-calendar'/> <span>{this.props.race.date}</span>
+                </div>
+                <div className='col-3'>
+                  <i className='fa fa-cloud'/> <span>{translations[this.props.race.weather]}</span>
+                </div>
+                <div className='col-3'>
+                  <i className='fa fa-road'/> <span>{track_translations[this.props.race.configuration]}</span>
+                </div>
+                <div className='col-3'>
+                  <i className='fa fa-tachometer'/> <span>{this.props.race.best_lap_user.name} - {this.props.race.best_lap_user.time} сек</span>
+                </div>
+              </div>
             </div>
             <div className="row">
               <div className="col-12">
