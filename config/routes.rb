@@ -19,4 +19,5 @@ Rails.application.routes.draw do
   get 'regulations', to: 'pages#regulations'
   get 'reactivate/edit', 'reactivate#edit'
   put 'reactivate/update', 'reactivate#update'
+  get 'next_race_notifier', to: 'users#send_emails'
 end

@@ -1,5 +1,10 @@
 class UsersController < ApplicationController
 
+  def send_emails
+    NextRaceNotifierJob.perform_later
+    redirect_to root_path
+  end
+
   def info
     @admin = current_user&.admin?
     user = User.find_by(id: params[:id])
