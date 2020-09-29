@@ -40,20 +40,24 @@ export default class Standings extends React.Component {
     });
   };
 
-  cellColor = (points) => {
-    if (points === 1) {
-      return ({color: 'gold'});
-    } else if (points === 2) {
-      return ({color: '#797979'});
-    } else if (points === 3) {
-      return ({color: '#cd7f32'});
+  cellColor = (place, min_race, race) => {
+    if (min_race === race) {
+      return ({color: 'red'});
     } else {
-      return ({});
+      if (place === 1) {
+        return ({color: 'gold'});
+      } else if (place === 2) {
+        return ({color: '#797979'});
+      } else if (place === 3) {
+        return ({color: '#cd7f32'});
+      } else {
+        return ({});
+      }
     }
   };
 
   render() {
-    console.log(this.props)
+    console.log(this.state)
     return (
       <Fragment>
         <NotificationContainer/>
@@ -97,7 +101,7 @@ export default class Standings extends React.Component {
                         <td>{s.company}</td>
                         <td>{s.specialization}</td>
                         { [...Array(this.state.races)].map((race, i) => { return (
-                          <td style={this.cellColor(s.races[i+1] && s.races[i+1]['place'])} key={i}>
+                          <td style={this.cellColor(s.races[i+1] && s.races[i+1]['place'], s.min_race, i+1)} key={i}>
                             {(s.races[i+1] && s.races[i+1]['points']) || '-'}{s.races[i+1] && s.races[i+1]['best_lap'] ? '*' : ''}
                           </td>)
                         })}

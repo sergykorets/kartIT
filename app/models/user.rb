@@ -74,15 +74,17 @@ class User < ApplicationRecord
     end
     total_points = if races.compact.any?
       season_races = Race.in_season(season).past.count
+      min_points = races.values.size < season_races ? 0 : races.values.map {|r| r[:points]}.min
+      min_race = races.values.detect {|r| r[:points] == min_points}.try(:[], :number)
       if (races.values.size < season_races) || season_races == 1
         races.values.map {|r| r[:points]}.sum
       else
-        races.values.map {|r| r[:points]}.sum - races.values.map {|r| r[:points]}.min
+        races.values.map {|r| r[:points]}.sum - min_points
       end
     else
       0
     end
-    {total_points: total_points, races: races}
+    {total_points: total_points, races: races, min_race: min_race}
   end
 
   def places(place, season = 'all')

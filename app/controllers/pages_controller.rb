@@ -16,7 +16,8 @@ class PagesController < ApplicationController
         company: user.company,
         specialization: user.specialization,
         points: stat[:total_points],
-        races: stat[:races]
+        races: stat[:races],
+        min_race: stat[:min_race]
       }
     end.sort_by {|s| s[:points]}.reverse
     respond_to do |format|
