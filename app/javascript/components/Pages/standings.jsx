@@ -38,7 +38,20 @@ export default class Standings extends React.Component {
     });
   };
 
+  cellColor = (points) => {
+    if (points === 1) {
+      return ({color: 'gold'});
+    } else if (points === 2) {
+      return ({color: '#797979'});
+    } else if (points === 3) {
+      return ({color: '#cd7f32'});
+    } else {
+      return ({});
+    }
+  };
+
   render() {
+    console.log(this.props)
     return (
       <Fragment>
         <NotificationContainer/>
@@ -63,6 +76,13 @@ export default class Standings extends React.Component {
                     <th><h1>Ім'я</h1></th>
                     <th><h1>Компанія</h1></th>
                     <th><h1>Спеціалізація</h1></th>
+                    {
+                      [...Array(this.props.races)].map((race, i) => {
+                        return (
+                          <th key={i}><h1>{i+1} етап</h1></th>
+                        )
+                      })
+                    }
                     <th><h1>Очки</h1></th>
                   </tr>
                   </thead>
@@ -74,6 +94,11 @@ export default class Standings extends React.Component {
                         <td><a href={`/racer/${s.id}`}>{s.racer}</a></td>
                         <td>{s.company}</td>
                         <td>{s.specialization}</td>
+                        { [...Array(this.props.races)].map((race, i) => { return (
+                          <td style={this.cellColor(s.races[i+1] && s.races[i+1]['place'])} key={i}>
+                            {(s.races[i+1] && s.races[i+1]['points']) || '-'}{s.races[i+1] && s.races[i+1]['best_lap'] ? '*' : ''}
+                          </td>)
+                        })}
                         <td>{s.points}</td>
                       </tr>
                     )

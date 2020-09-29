@@ -62,21 +62,27 @@ class User < ApplicationRecord
   end
 
   def points_in_season(season)
-    sum = []
+    races = {}
     race_standings.joins(:race).where(races: {season: season}).where("date < ?", Date.today).each do |s|
-      sum << s.points(season, s.place)
+      is_best_lap = s.race.best_lap_user_id == s.user.id
+      races[s.race.number] = {
+          number: s.race.number,
+          place: s.place,
+          points: is_best_lap ? s.points(season, s.place) + 1 : s.points(season, s.place),
+          best_lap: is_best_lap
+      }
     end
-    if sum.compact.any?
+    total_points = if races.compact.any?
       season_races = Race.in_season(season).past.count
-      best_lap_points = best_lap_races.in_season(season).count
-      if (sum.size < season_races) || season_races == 1
-        sum.sum + best_lap_points
+      if (races.values.size < season_races) || season_races == 1
+        races.values.map {|r| r[:points]}.sum
       else
-        sum.sum + best_lap_points - sum.min
+        races.values.map {|r| r[:points]}.sum - races.values.map {|r| r[:points]}.min
       end
     else
       0
     end
+    {total_points: total_points, races: races}
   end
 
   def places(place, season = 'all')
