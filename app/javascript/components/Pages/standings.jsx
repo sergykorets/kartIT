@@ -9,6 +9,7 @@ export default class Standings extends React.Component {
     super(props);
 
     this.state = {
+      races: this.props.races,
       standings: this.props.standings,
       season: '2020'
     };
@@ -31,6 +32,7 @@ export default class Standings extends React.Component {
     }).then((resp) => {
       this.setState({
           ...this.state,
+          races: resp.races,
           standings: resp.standings,
           [field]: value
         }
@@ -77,7 +79,7 @@ export default class Standings extends React.Component {
                     <th><h1>Компанія</h1></th>
                     <th><h1>Спеціалізація</h1></th>
                     {
-                      [...Array(this.props.races)].map((race, i) => {
+                      [...Array(this.state.races)].map((race, i) => {
                         return (
                           <th key={i}><h1>{i+1} етап</h1></th>
                         )
@@ -94,7 +96,7 @@ export default class Standings extends React.Component {
                         <td><a href={`/racer/${s.id}`}>{s.racer}</a></td>
                         <td>{s.company}</td>
                         <td>{s.specialization}</td>
-                        { [...Array(this.props.races)].map((race, i) => { return (
+                        { [...Array(this.state.races)].map((race, i) => { return (
                           <td style={this.cellColor(s.races[i+1] && s.races[i+1]['place'])} key={i}>
                             {(s.races[i+1] && s.races[i+1]['points']) || '-'}{s.races[i+1] && s.races[i+1]['best_lap'] ? '*' : ''}
                           </td>)

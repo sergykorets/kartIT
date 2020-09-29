@@ -1,3 +1,3 @@
 json.standings @standings
 json.admin @admin
-json.admin @races
+json.races @races
