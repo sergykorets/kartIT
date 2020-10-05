@@ -101,8 +101,11 @@ export default class Standings extends React.Component {
                         <td>{s.company}</td>
                         <td>{s.specialization}</td>
                         { [...Array(this.state.races)].map((race, i) => { return (
-                          <td style={this.cellColor(s.races[i+1] && s.races[i+1]['place'], s.min_race, i+1)} key={i}>
-                            {(s.races[i+1] && s.races[i+1]['points']) || '-'}{s.races[i+1] && s.races[i+1]['best_lap'] ? '*' : ''}
+                          <td key={i}>
+                            <a style={this.cellColor(s.races[i+1] && s.races[i+1]['place'], s.min_race, i+1)}
+                               href={s.races[i+1] ? `/races/${s.races[i+1]['id']}` : '#'}>
+                              {(s.races[i+1] && s.races[i+1]['points']) || '-'}{s.races[i+1] && s.races[i+1]['best_lap'] ? '*' : ''}
+                            </a>
                           </td>)
                         })}
                         <td>{s.points}</td>

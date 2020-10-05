@@ -66,6 +66,7 @@ class User < ApplicationRecord
     race_standings.joins(:race).where(races: {season: season}).where("date < ?", Date.today).each do |s|
       is_best_lap = s.race.best_lap_user_id == s.user.id
       races[s.race.number] = {
+          id: s.race.id,
           number: s.race.number,
           place: s.place,
           points: is_best_lap ? s.points(season, s.place) + 1 : s.points(season, s.place),
