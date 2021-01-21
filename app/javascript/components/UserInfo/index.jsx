@@ -37,7 +37,7 @@ export default class UserInfo extends React.Component {
                   <div className="rela-block profile-card">
                     {user.championships.map((c, i) => {
                       return (
-                        <i title={`Чемпіон сезону ${c}`} className="fa fa-star" key={i}/>
+                        <i title={`Чемпіон сезону ${c}`} className="fa fa-star" key={i} style={{left: 1.5+(2*i)+'rem'}}/>
                       )})}
                     <div className="profile-pic" id="profile_pic" style={{backgroundImage: `url(${user.avatar})`}}/>
                     <div className="rela-block profile-name-container">
