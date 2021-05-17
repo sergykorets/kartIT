@@ -8,11 +8,13 @@ class PagesController < ApplicationController
 
   def standings
     @admin = current_user&.admin?
-    @races = Race.in_season(params[:season] || '2020').past.count
-    @standings = User.in_season(params[:season] || '2020').map do |user|
-      stat = user.points_in_season(params[:season] || '2020')
+    @races = Race.in_season(params[:season] || '2021').past.count
+    @seasons = Race.seasons.keys
+    @standings = User.in_season(params[:season] || '2021').map do |user|
+      stat = user.points_in_season(params[:season] || '2021')
       { id: user.id,
         racer: user.name,
+        avatar: user.avatar,
         company: user.company,
         specialization: user.specialization,
         points: stat[:total_points],

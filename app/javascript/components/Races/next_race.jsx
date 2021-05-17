@@ -82,7 +82,7 @@ export default class NextRace extends React.Component {
                   <thead>
                   <tr>
                     <th><h1>#</h1></th>
-                    <th><h1>Ім'я</h1></th>
+                    <th colSpan={2}><h1>Ім'я</h1></th>
                     <th><h1>Компанія</h1></th>
                     <th><h1>Спеціалізація</h1></th>
                     <th><h1>Новачок</h1></th>
@@ -94,6 +94,7 @@ export default class NextRace extends React.Component {
                     return (
                       <tr key={index}>
                         <td>{index+1}</td>
+                        <td><div className="user-pic" style={{backgroundImage: `url(${u.avatar})`}}/></td>
                         <td><a href={`/racer/${u.id}`}>{u.name}</a></td>
                         <td>{u.company}</td>
                         <td>{u.specialization}</td>

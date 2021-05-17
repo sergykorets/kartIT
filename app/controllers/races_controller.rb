@@ -4,7 +4,8 @@ class RacesController < ApplicationController
 
   def index
     @admin = current_user&.admin?
-    @races = Race.past.order('date DESC').where(season: params[:season] || '2020').map do |race|
+    @seasons = Race.seasons.keys
+    @races = Race.past.order('date DESC').where(season: params[:season] || '2021').map do |race|
       { id: race.id,
         number: race.number,
         date: race.date.strftime('%d.%m.%Y %H:%M'),
@@ -47,6 +48,7 @@ class RacesController < ApplicationController
       standings: race.race_standings.order(:place).map do |s|
         { place: s.place,
           name: s.user&.name || s.name,
+          avatar: s.user.avatar,
           user_id: s.user&.id,
           company: s.user&.company || s.company,
           specialization: s.user&.specialization || s.specialization,
@@ -71,6 +73,7 @@ class RacesController < ApplicationController
     @registered_users = RaceStanding.joins(:user).where(race_standings: {race: @next_race}).order("race_standings.created_at").map do |s|
       { id: s.user.id,
         name: s.user.name,
+        avatar: s.user.avatar,
         company: s.user.company,
         specialization: s.user.specialization,
         novice: s.user.novice,

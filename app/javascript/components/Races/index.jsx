@@ -9,7 +9,7 @@ export default class Races extends React.Component {
 
     this.state = {
       races: this.props.races,
-      season: '2020'
+      season: '2021'
     };
   }
 
@@ -63,7 +63,7 @@ export default class Races extends React.Component {
               <FormGroup>
                 <Label for="season">Сезон</Label>
                 <Input type="select" name="season" id="season" defaultValue={this.state.season} onChange={(e) => this.handleChange('season', e.target.value)}>
-                  { ['2019', '2020'].map((season, index) => {
+                  { this.props.seasons.map((season, index) => {
                     return <option key={index} value={season}>{season}</option>
                   })}
                 </Input>
@@ -72,9 +72,9 @@ export default class Races extends React.Component {
             <div className="row">
               <div className="col-12">
                 <div className='races'>
-                  { this.state.races.map((race) => {
+                  { this.state.races.map((race, i) => {
                     return (
-                      <div className='race' onClick={() => this.handleClick(race.id)}>
+                      <div key={i} className='race' onClick={() => this.handleClick(race.id)}>
                         <div className='race-img'>
                           <img src={race.avatar}/>
                         </div>

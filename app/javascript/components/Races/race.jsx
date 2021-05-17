@@ -64,7 +64,7 @@ export default class Race extends React.Component {
                   <thead>
                   <tr>
                     <th><h1>#</h1></th>
-                    <th><h1>Ім'я</h1></th>
+                    <th colSpan={2}><h1>Ім'я</h1></th>
                     <th><h1>Компанія</h1></th>
                     <th><h1>Спеціалізація</h1></th>
                     <th><h1>Очки</h1></th>
@@ -75,6 +75,7 @@ export default class Race extends React.Component {
                     return (
                       <tr key={index}>
                         <td>{s.place}</td>
+                        <td><div className='user-pic' style={{backgroundImage: `url(${s.avatar})`}}/></td>
                         <td><a href={`/racer/${s.user_id}`}>{s.name}</a></td>
                         <td>{s.company}</td>
                         <td>{s.specialization}</td>
