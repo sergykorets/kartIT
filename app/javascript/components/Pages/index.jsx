@@ -130,15 +130,23 @@ export default class Home extends React.Component {
           <div className="container wow fadeInUp">
             <div className="row">
               <div className="col-sm-5 col-md-6">
-                { this.props.next_race_date &&
+                { this.props.banner &&
                   <div className='next-race-banner'>
                     <div className='left'>
-                      <h2><a href='/races/next_race'>Наступна гонка</a></h2>
-                      <h5>КЦ "Жажда Скорости"</h5>
-                      <h3><b>{this.props.next_race_date}</b></h3>
+                      <h2>
+                        { this.props.banner.register.length > 0 ?
+                          <a target='_blank' href={this.props.banner.register}>Наступна гонка</a>
+                          :
+                          <a href='/races/next_race'>Наступна гонка</a>}
+                      </h2>
+                      <h5>{this.props.banner.circuit}</h5>
+                      <h3><b>{this.props.banner.race_date}</b></h3>
                     </div>
                     <div className='right'>
-                      <button onClick={() => this.handleCheckIn()} className="btn btn-block custom-button">Check-In</button>
+                      { this.props.banner.register.length > 0 ?
+                        <a target='_blank' href={this.props.banner.register} className="btn btn-block custom-button">Check-In</a>
+                        :
+                        <button onClick={() => this.handleCheckIn()} className="btn btn-block custom-button">Check-In</button>}
                     </div>
                   </div>}
               </div>
@@ -166,9 +174,10 @@ export default class Home extends React.Component {
                     <span className="service-number">1</span>
                   </div>
                   <div className="col-sm-8 col-md-7">
-                    <h2>Кваліфікація</h2>
-                    <p>Тривалість 10 хв. У заїзді їдуть 9-10 чоловік. З усіх кругів, які проїдуть "пілоти" береться найкраще.
-                       В наступний етап змагань проходять ТОП-30 найкращих, які показали найкращі результати одного швидкого кола.</p>
+                    <h2>Практика</h2>
+                    <p>Тривалість 15 хв. У заїзді їдуть 10-20 чоловік. Тренувальний заїзд для вивчення треку.
+                       На результати етапу цей заїзд не впливає, окрім як можливості встановлення найкращого часу кола
+                       взагалом протягом всього етапу.</p>
                   </div>
                 </div>
               </div>
@@ -179,10 +188,9 @@ export default class Home extends React.Component {
                     <span className="service-number">2</span>
                   </div>
                   <div className="col-sm-8 col-md-7">
-                    <h2>Півфінал</h2>
-                    <p>До цієї гонки потрапляє 30 пілотів згідно з кваліфікаційним результатом. Кількість гонок півфіналу - 3.
-                       Стартова решітка гонки формується за місцем пілота в кваліфікації. Перший заїзд місця 1,4,7,10,13,16,19,22,25,28.
-                       Другий і третій заїзди формуються за такою ж схемою. Тривалість гонки - 12 кругів (10 хв).</p>
+                    <h2>Кваліфікація</h2>
+                    <p>Тривалість 10 хв. У заїзді їдуть 10-20 чоловік. З усіх кругів, які проїдуть "пілоти" береться лише найкраще.
+                       Кваліфікація встановлює порядок стартової решітки гонок півфіналів.</p>
                   </div>
                 </div>
               </div>
@@ -193,13 +201,26 @@ export default class Home extends React.Component {
                     <span className="service-number">3</span>
                   </div>
                   <div className="col-sm-8 col-md-7">
+                    <h2>Півфінал</h2>
+                    <p>Заїзди в гоночному режимі по результатам кваліфікації. Хто вище в кваліфікації, той має кращу стартову позицію.
+                       Старт гонки відбуваться з місця, кількість гонок залежить від кількості учасників.
+                       Кількість учасників в окремому заїзді 10-20. Тривалість гонки - 12 кругів (10 хв).</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="service clearfix">
+                <div className='row'>
+                  <div className="col-sm-4 col-md-5">
+                    <span className="service-number">4</span>
+                  </div>
+                  <div className="col-sm-8 col-md-7">
                     <h2>Фінал</h2>
-                    <p>Кількість пілотів - 10. Формується з пілотів, які зайняли 3 призових місця в півфіналах.
-                       10й пілот фіналу той, хто приїхав 4м у півфіналі і показав найкращий час кола серед інших 4х місць.
-                       Стартова решітка фіналу формується так:
+                    <p>Кількість пілотів - 10-15. Формується з пілотів, які зайняли вищі позиції в півфіналах.
+                       Стартова решітка фіналу формується за результатами півфіналів:
                        Перше місце на старті має той пілот, який виграв півфінал і показав найкраще коло серед переможців
-                       інших півфіналів. Всі інші місця формуються за такою ж схемою. Всі фіналісти доважуються до ваги 85 кг.
-                       Тривалість гонки - 15 кругів (12 хв).</p>
+                       інших півфіналів. Всі інші місця стартової решітки формуються за такою ж схемою.
+                       Всі фіналісти доважуються до ваги 85 кг. Тривалість гонки - 15 кругів (12 хв).</p>
                   </div>
                 </div>
               </div>

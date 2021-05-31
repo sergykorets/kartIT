@@ -1,7 +1,11 @@
 class PagesController < ApplicationController
 
   def index
-    @next_race_date = Banner.first&.next_race_date&.strftime('%d.%m.%Y %H:%M')
+    banner = Banner.first
+    @banner = {
+        race_date: banner.next_race_date.strftime('%d.%m.%Y %H:%M'),
+        circuit: banner.circuit,
+        register: banner.register}
     @admin = current_user&.admin?
     @logged = current_user.present?
   end

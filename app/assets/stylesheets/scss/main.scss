@@ -36,13 +36,16 @@
   margin-top: 5px;
   .right {
     margin-top: 1rem;
-    button {
+    a, button {
       background: -webkit-gradient(linear, left bottom, left top, from(#e8bb1e), to(#524002));
       background: -webkit-linear-gradient(bottom, #e8bb1e 0%, #524002 100%);
       background: -moz-linear-gradient(bottom, #e8bb1e 0%, #524002 100%);
       background: -o-linear-gradient(bottom, #e8bb1e 0%, #524002 100%);
       background: linear-gradient(top, #e8bb1e 0%, #524002 100%);
       border: none;
+    }
+    a {
+      line-height: 55px;
     }
   }
   h3 {
