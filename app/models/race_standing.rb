@@ -37,6 +37,6 @@ class RaceStanding < ApplicationRecord
         29 => [0, 2],
         30 => [0, 1]
     }
-    (season == '2019' ? table[place].try(:first) : table[place].try(:last)) || 0
+    (season != '2020' ? table[place].try(:first) : table[place].try(:last)) || 0
   end
 end
