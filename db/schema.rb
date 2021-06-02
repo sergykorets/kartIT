@@ -10,13 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200319094949) do
+ActiveRecord::Schema.define(version: 20210531185332) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "banners", force: :cascade do |t|
     t.datetime "next_race_date"
+    t.string "circuit"
+    t.string "register"
   end
 
   create_table "photos", force: :cascade do |t|
