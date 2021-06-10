@@ -85,7 +85,7 @@ export default class NextRace extends React.Component {
                     <th colSpan={2}><h1>Ім'я</h1></th>
                     <th><h1>Компанія</h1></th>
                     <th><h1>Спеціалізація</h1></th>
-                    <th><h1>Новачок</h1></th>
+                    <th><h1>Гонки</h1></th>
                     <th><h1>Дата реєстрації</h1></th>
                   </tr>
                   </thead>
@@ -98,7 +98,7 @@ export default class NextRace extends React.Component {
                         <td><a href={`/racer/${u.id}`}>{u.name}</a></td>
                         <td>{u.company}</td>
                         <td>{u.specialization}</td>
-                        <td style={{color: u.novice ? 'green' : 'red'}}>{u.novice ? 'Так' : 'Ні'}</td>
+                        <td>{u.races}</td>
                         <td>{u.created_at}</td>
                       </tr>
                     )

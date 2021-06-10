@@ -76,7 +76,7 @@ class RacesController < ApplicationController
         avatar: s.user.avatar,
         company: s.user.company,
         specialization: s.user.specialization,
-        novice: s.user.novice,
+        races: s.user.race_standings.count - 1,
         created_at: s.created_at.strftime('%d.%m.%Y %H:%M')
       }
     end

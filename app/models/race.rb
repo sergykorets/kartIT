@@ -11,7 +11,7 @@ class Race < ApplicationRecord
   enum weather: [:sunny, :cloudy, :rain]
 
   scope :in_season, ->(season) {where(season: season)}
-  scope :past, -> {where("date < ?", Date.today)}
+  scope :past, -> {where("date < ?", DateTime.now)}
   scope :next_races, -> {where("date >= ?", Date.today)}
 
   def title

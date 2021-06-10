@@ -134,17 +134,17 @@ export default class Home extends React.Component {
                   <div className='next-race-banner'>
                     <div className='left'>
                       <h2>
-                        { this.props.banner.register.length > 0 ?
-                          <a target='_blank' href={this.props.banner.register}>Наступна гонка</a>
-                          :
-                          <a href='/races/next_race'>Наступна гонка</a>}
+                        <a href='/races/next_race'>Наступна гонка</a>
                       </h2>
                       <h5>{this.props.banner.circuit}</h5>
                       <h3><b>{this.props.banner.race_date}</b></h3>
                     </div>
                     <div className='right'>
                       { this.props.banner.register.length > 0 ?
-                        <a target='_blank' href={this.props.banner.register} className="btn btn-block custom-button">Check-In</a>
+                        <Fragment>
+                          <a target='_blank' href={this.props.banner.register} className="btn btn-block custom-button">SWS Check-In</a>
+                          <button onClick={() => this.handleCheckIn()} className="btn btn-block custom-button">IT Racing Check-In</button>
+                        </Fragment>
                         :
                         <button onClick={() => this.handleCheckIn()} className="btn btn-block custom-button">Check-In</button>}
                     </div>
