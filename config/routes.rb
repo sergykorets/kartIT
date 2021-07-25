@@ -20,4 +20,5 @@ Rails.application.routes.draw do
   get 'reactivate/edit', 'reactivate#edit'
   put 'reactivate/update', 'reactivate#update'
   get 'next_race_notifier', to: 'users#send_emails'
+  get 'today_race_notifier', to: 'users#today_emails'
 end

@@ -6,4 +6,9 @@ class ItRacingMailer < ApplicationMailer
     mail(to: user.email, subject: "Наступна гонка ІТ Racing (#{@next_race})")
   end
 
+  def today_race_notifier(user)
+    @next_race = Race.last.date.strftime("%H:%M")
+    @track = Banner.first.circuit
+    mail(to: user.email, subject: "Сьогодні гонка ІТ Racing")
+  end
 end

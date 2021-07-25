@@ -4,6 +4,10 @@ class UsersController < ApplicationController
     NextRaceNotifierJob.perform_later
     redirect_to root_path
   end
+  def today_emails
+    TodayRaceNotifierJob.perform_later
+    redirect_to root_path
+  end
 
   def info
     @admin = current_user&.admin?
