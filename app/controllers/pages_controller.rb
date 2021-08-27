@@ -14,7 +14,7 @@ class PagesController < ApplicationController
     @admin = current_user&.admin?
     @races = Race.in_season(params[:season] || '2021').past.count
     @seasons = Race.seasons.keys
-    @standings = User.in_season(params[:season] || '2021').map do |user|
+    @standings = User.in_season(params[:season] || '2021').is_pro(ActiveModel::Type::Boolean.new.cast(params[:is_pro]), params[:season].to_i).map do |user|
       stat = user.points_in_season(params[:season] || '2021')
       { id: user.id,
         racer: user.name,

@@ -13,7 +13,8 @@ class User < ApplicationRecord
 
   enum role: [:racer, :admin, :manager]
 
-  scope :in_season, ->(season) {joins(:races).where(races: {season: season}).uniq}
+  scope :in_season, ->(season) {joins(:races).where(races: {season: season}).distinct}
+  scope :is_pro, ->(pro, season) {pro ? where('pro_since >= ?', season) : where('pro_since < ? OR pro_since IS NULL', season) if !pro.nil? && season >= 2021}
 
   validates_presence_of :first_name, :last_name, :company, :specialization
 

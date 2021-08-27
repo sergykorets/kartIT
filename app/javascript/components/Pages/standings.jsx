@@ -11,7 +11,8 @@ export default class Standings extends React.Component {
     this.state = {
       races: this.props.races,
       standings: this.props.standings,
-      season: '2021'
+      season: '2021',
+      is_pro: ''
     };
   }
 
@@ -23,12 +24,14 @@ export default class Standings extends React.Component {
   }
 
   handleChange = (field, value) => {
+    const params = {
+      season: field == 'season' ? value : this.state.season,
+      is_pro: field == 'is_pro' ? value : this.state.is_pro
+    }
     $.ajax({
       url: '/standings.json',
       type: 'GET',
-      data: {
-        season: value
-      }
+      data: params
     }).then((resp) => {
       this.setState({
           ...this.state,
@@ -63,15 +66,28 @@ export default class Standings extends React.Component {
         <NotificationContainer/>
         <section id="services" className="services page">
           <div className="container wow fadeInUp">
-            <div className="col-sm-12 col-md-6 col-lg-4 mt-5">
-              <FormGroup>
-                <Label for="season">Сезон</Label>
-                <Input type="select" name="season" id="season" defaultValue={this.state.season} onChange={(e) => this.handleChange('season', e.target.value)}>
-                  { this.props.seasons.map((season, index) => {
-                    return <option key={index} value={season}>{season}</option>
-                  })}
-                </Input>
-              </FormGroup>
+            <div className="row">
+              <div className="col-sm-12 col-md-6 col-lg-4 mt-5">
+                <FormGroup>
+                  <Label for="season">Сезон</Label>
+                  <Input type="select" name="season" id="season" defaultValue={this.state.season} onChange={(e) => this.handleChange('season', e.target.value)}>
+                    { this.props.seasons.map((season, index) => {
+                      return <option key={index} value={season}>{season}</option>
+                    })}
+                  </Input>
+                </FormGroup>
+              </div>
+              { parseInt(this.state.season) >= 2021 &&
+                <div className="col-sm-12 col-md-6 col-lg-4 mt-5">
+                  <FormGroup>
+                    <Label for="is_pro">Залік</Label>
+                    <Input type="select" name="is_pro" id="is_pro" defaultValue={this.state.is_pro} onChange={(e) => this.handleChange('is_pro', e.target.value)}>
+                      <option value={''}>Загальний</option>
+                      <option value={true}>PRO</option>
+                      <option value={false}>STREET</option>
+                    </Input>
+                  </FormGroup>
+                </div>}
             </div>
             <div className="row">
               <div className="col-12">
